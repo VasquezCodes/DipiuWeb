@@ -11,28 +11,18 @@ gsap.registerPlugin(ScrollTrigger);
 
 export default function Navbar() {
     const navRef = useRef(null);
-    const containerRef = useRef(null); // The bar itself
-    const logoWhiteRef = useRef(null);
-    const logoRedRef = useRef(null);
+    const containerRef = useRef(null);
     const menuOverlayRef = useRef(null);
-    const menuContentRef = useRef(null); // Ref for staggering menu items
+    const menuContentRef = useRef(null);
 
     // Mobile Menu State
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    // Toggle Menu
-    const toggleMenu = () => {
-        setIsMenuOpen(!isMenuOpen);
-    };
+    const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+    const closeMenu = () => setIsMenuOpen(false);
 
-    // Close menu on route change or link click
-    const closeMenu = () => {
-        setIsMenuOpen(false);
-    }
-
-    // 1. Permanent Scroll Setup & Entry Animation (Runs once)
+    // 1. Entry Animation (Runs once)
     useGSAP(() => {
-        // Initial entry animation
         gsap.from(containerRef.current, {
             y: -100,
             opacity: 0,
@@ -40,98 +30,56 @@ export default function Navbar() {
             delay: 0.5,
             ease: "power3.out",
         });
+    }, { scope: navRef });
 
-        const scrollConfig = {
-            trigger: "#hero-section",
-            start: "bottom top",
-            toggleActions: "play none none reverse",
-        };
-
-        // Color transition based on scroll
-        gsap.to(containerRef.current, {
-            color: "#D92525", // Change to Red
-            scrollTrigger: scrollConfig,
-        });
-
-        // Logo transition: Fade out White, Fade in Red
-        gsap.to(logoWhiteRef.current, {
-            opacity: 0,
-            scrollTrigger: scrollConfig
-        });
-
-        gsap.to(logoRedRef.current, {
-            opacity: 1,
-            scrollTrigger: scrollConfig
-        });
-
-    }, { scope: navRef }); // No dependencies! Runs once.
-
-    // 2. Menu Open/Close Logic (Runs on state change)
+    // 2. Menu Logic
     useEffect(() => {
         if (!menuOverlayRef.current) return;
 
         if (isMenuOpen) {
-            // OPEN ANIMS
             gsap.to(menuOverlayRef.current, {
                 x: "0%",
                 duration: 0.6,
                 ease: "power3.out"
             });
-            // Stagger content in
             gsap.fromTo(".menu-item",
                 { y: 50, opacity: 0 },
                 { y: 0, opacity: 1, duration: 0.5, stagger: 0.1, delay: 0.2, ease: "power2.out" }
             );
-
             document.body.style.overflow = "hidden";
         } else {
-            // CLOSE ANIMS
             gsap.to(menuOverlayRef.current, {
                 x: "100%",
                 duration: 0.6,
                 ease: "power3.in"
             });
-
             document.body.style.overflow = "";
         }
     }, [isMenuOpen]);
 
     return (
         <nav ref={navRef}>
-            {/* The Top Bar */}
             <div
                 ref={containerRef}
-                className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 py-6 md:px-12 md:py-8 text-dipiu-beige transition-colors duration-300"
+                // Static color: text-dipiu-beige (White-ish)
+                className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 py-6 md:px-12 md:py-8 text-dipiu-beige pointer-events-none"
             >
-                {/* Logo */}
+                {/* Logo - Always White/Negative */}
                 <div className="flex-1 relative z-50 pointer-events-none">
                     <Link href="/" onClick={closeMenu} className="relative block w-24 h-8 hover:opacity-80 transition-opacity pointer-events-auto">
-                        <div ref={logoRedRef} className="absolute inset-0 opacity-0" suppressHydrationWarning>
-                            <Image
-                                src="/dipiuLogos/SVG/%233 Logomark Red Positive.svg"
-                                alt="DiPiù Logo Red"
-                                fill
-                                className="object-contain object-left"
-                                priority
-                                suppressHydrationWarning
-                            />
-                        </div>
-
-                        <div ref={logoWhiteRef} className="absolute inset-0 opacity-100 mix-blend-screen" suppressHydrationWarning>
-                            <Image
-                                src="/dipiuLogos/SVG/%233 Logomark Red Positive.svg"
-                                alt="DiPiù Logo White"
-                                fill
-                                className="object-contain object-left brightness-0 invert"
-                                priority
-                                suppressHydrationWarning
-                            />
-                        </div>
+                        <Image
+                            src="/dipiuLogos/SVG/%233 Logomark Red Positive.svg"
+                            alt="DiPiù Logo"
+                            fill
+                            className="object-contain object-left brightness-0 invert"
+                            priority
+                            suppressHydrationWarning
+                        />
                     </Link>
                 </div>
 
                 {/* Desktop Menu */}
-                <div className="hidden md:flex items-center gap-10 font-sans text-sm uppercase tracking-widest font-medium">
+                <div className="hidden md:flex items-center gap-10 font-sans text-sm uppercase tracking-widest font-medium pointer-events-auto">
                     <Link href="#products" className="hover:underline underline-offset-4 decoration-1">
                         Our Products
                     </Link>
@@ -140,15 +88,15 @@ export default function Navbar() {
                     </Link>
                     <a
                         href="mailto:wholesale@dipiu.com.au?subject=Wholesale%20Enquiry"
-                        className="border border-current px-6 py-2 rounded-full hover:bg-current hover:text-white transition-colors duration-300"
+                        className="border border-current px-6 py-2 rounded-full hover:bg-current hover:text-dipiu-red transition-colors duration-300"
                     >
                         Wholesale
                     </a>
                 </div>
 
-                {/* Mobile Hamburger Button (Only visible when menu closed) */}
+                {/* Mobile Burger */}
                 <button
-                    className="md:hidden relative z-[51] w-8 h-8 flex flex-col justify-center items-end gap-1.5 focus:outline-none cursor-pointer"
+                    className="md:hidden relative z-[51] w-8 h-8 flex flex-col justify-center items-end gap-1.5 focus:outline-none cursor-pointer pointer-events-auto"
                     onClick={toggleMenu}
                 >
                     <span className="block w-8 h-[2px] bg-current" />
@@ -157,17 +105,16 @@ export default function Navbar() {
                 </button>
             </div>
 
-            {/* Mobile Menu Overlay (Z-60 covers everything) */}
+            {/* Mobile Menu Overlay */}
             <div
                 ref={menuOverlayRef}
                 className="fixed inset-0 z-[60] bg-dipiu-black text-dipiu-beige flex flex-col translate-x-full md:hidden"
             >
-                {/* Menu Header (Back Button) */}
                 <div className="flex justify-between items-center px-6 py-6 border-b border-dipiu-beige/10">
                     <span className="font-serif text-xl">Menu</span>
                     <button
                         onClick={closeMenu}
-                        className="flex items-center gap-2 text-sm uppercase tracking-widest hover:text-dipiu-red transition-colors"
+                        className="flex items-center gap-2 text-sm uppercase tracking-widest hover:text-dipiu-red transition-colors cursor-pointer"
                     >
                         <span>Back</span>
                         <svg
@@ -184,7 +131,6 @@ export default function Navbar() {
                     </button>
                 </div>
 
-                {/* Menu Content */}
                 <div ref={menuContentRef} className="flex-1 flex flex-col justify-center items-center gap-10 p-6">
                     <Link href="#products" onClick={closeMenu} className="menu-item font-serif text-5xl hover:text-dipiu-red transition-colors">
                         Products
@@ -195,9 +141,7 @@ export default function Navbar() {
                     <Link href="#contact" onClick={closeMenu} className="menu-item font-serif text-5xl hover:text-dipiu-red transition-colors">
                         Contact
                     </Link>
-
                     <div className="menu-item w-12 h-[1px] bg-dipiu-beige/20 my-4" />
-
                     <a
                         href="mailto:wholesale@dipiu.com.au"
                         className="menu-item font-sans text-sm uppercase tracking-widest border border-dipiu-beige px-10 py-4 rounded-full hover:bg-dipiu-beige hover:text-dipiu-black transition-colors"
