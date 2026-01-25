@@ -17,7 +17,7 @@ const products = [
 ];
 
 export default function Products() {
-    const sectionRef = useRef<HTMLSectionElement>(null);
+    const sectionRef = useRef<HTMLElement>(null);
 
     useGSAP(() => {
         const section = sectionRef.current;
