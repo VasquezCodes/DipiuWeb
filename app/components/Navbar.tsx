@@ -104,8 +104,8 @@ export default function Navbar() {
                 className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 py-6 md:px-12 md:py-8 text-dipiu-beige transition-colors duration-300"
             >
                 {/* Logo */}
-                <div className="flex-1 relative z-50">
-                    <Link href="/" onClick={closeMenu} className="relative block w-24 h-8 hover:opacity-80 transition-opacity">
+                <div className="flex-1 relative z-50 pointer-events-none">
+                    <Link href="/" onClick={closeMenu} className="relative block w-24 h-8 hover:opacity-80 transition-opacity pointer-events-auto">
                         <div ref={logoRedRef} className="absolute inset-0 opacity-0" suppressHydrationWarning>
                             <Image
                                 src="/dipiuLogos/SVG/%233 Logomark Red Positive.svg"
@@ -148,7 +148,7 @@ export default function Navbar() {
 
                 {/* Mobile Hamburger Button (Only visible when menu closed) */}
                 <button
-                    className="md:hidden relative z-50 w-8 h-8 flex flex-col justify-center items-end gap-1.5 focus:outline-none"
+                    className="md:hidden relative z-[51] w-8 h-8 flex flex-col justify-center items-end gap-1.5 focus:outline-none cursor-pointer"
                     onClick={toggleMenu}
                 >
                     <span className="block w-8 h-[2px] bg-current" />

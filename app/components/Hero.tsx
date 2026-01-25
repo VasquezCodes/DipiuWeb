@@ -159,7 +159,7 @@ export default function Hero() {
                         {cards.map((img, i) => (
                             <div
                                 key={i}
-                                className="card-item absolute inset-0 w-full h-full rounded-2xl overflow-hidden shadow-2xl border-[4px] border-[#1A1A1A] bg-white flex items-center justify-center"
+                                className="card-item absolute inset-0 w-full h-full rounded-2xl overflow-hidden shadow-2xl border-[4px] border-dipiu-beige bg-white flex items-center justify-center"
                             >
                                 <div className="relative w-full h-full">
                                     <Image
