@@ -136,7 +136,7 @@ export default function Hero() {
         <section
             id="hero-section"
             ref={containerRef}
-            className="relative min-h-[100dvh] w-full bg-dipiu-red flex items-center justify-center overflow-hidden py-20 md:py-0"
+            className="relative min-h-[100svh] w-full bg-dipiu-red flex items-center justify-center overflow-hidden py-20 md:py-0"
         >
             <div className="container mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-12 items-center h-full">
                 {/* Left: Typography */}
@@ -150,7 +150,7 @@ export default function Hero() {
                 </div>
 
                 {/* Right: Card Stack Container */}
-                <div className="relative w-full h-[40vh] md:h-full flex items-center justify-center perspective-[1000px] order-1 md:order-2">
+                <div className="relative w-full h-[40svh] md:h-full flex items-center justify-center perspective-[1000px] order-1 md:order-2">
                     <div
                         ref={stackRef}
                         // We translate X slightly on mobile to visual-center the fanned stack (which grows right)

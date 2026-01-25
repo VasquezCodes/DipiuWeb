@@ -3,7 +3,7 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-  
+
   /* DiPiù Brand Colors */
   --dipiu-red: #D92525;
   --dipiu-beige: #F4F1EA;
@@ -15,7 +15,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  
+
   /* Font Extensions */
   --font-serif: "DM Serif Display", serif;
 
@@ -38,8 +38,19 @@ body {
   font-family: var(--font-sans);
 }
 
+/* iOS Viewport Fix */
+html {
+  height: -webkit-fill-available;
+}
+
+body {
+  min-height: 100vh;
+  min-height: -webkit-fill-available;
+}
+
 /* Lenis Smooth Scroll */
-html.lenis, html.lenis body {
+html.lenis,
+html.lenis body {
   height: auto;
 }
 

@@ -3,7 +3,7 @@ import Products from "./components/Products";
 
 export default function Home() {
   return (
-    <main className="w-full bg-dipiu-beige min-h-screen">
+    <main className="w-full bg-dipiu-beige min-h-[100svh]">
       <Hero />
 
       <section id="intro-trigger" className="py-32 px-6 flex justify-center items-center bg-dipiu-beige">
