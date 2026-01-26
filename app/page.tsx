@@ -42,7 +42,7 @@ export default function Home() {
         </div>
 
         {/* Footer */}
-        <footer className="w-full py-8 bg-dipiu-red text-center text-dipiu-beige font-light text-sm uppercase tracking-widest">
+        <footer id="contact" className="w-full py-8 bg-dipiu-red text-center text-dipiu-beige font-light text-sm uppercase tracking-widest">
           &copy; {new Date().getFullYear()} DiPiù. All Rights Reserved.
         </footer>
 

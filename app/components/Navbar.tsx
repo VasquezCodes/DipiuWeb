@@ -5,9 +5,10 @@ import Image from "next/image";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
+import ScrollToPlugin from "gsap/ScrollToPlugin";
 import Link from "next/link";
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 export default function Navbar() {
     const navRef = useRef(null);
@@ -20,6 +21,20 @@ export default function Navbar() {
 
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
     const closeMenu = () => setIsMenuOpen(false);
+
+    const handleScrollTo = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>, id: string) => {
+        e.preventDefault();
+        closeMenu();
+
+        const target = document.querySelector(id);
+        if (target) {
+            gsap.to(window, {
+                duration: 1.5,
+                scrollTo: { y: target, autoKill: false },
+                ease: "power3.inOut"
+            });
+        }
+    };
 
     // 1. Entry Animation (Runs once)
     useGSAP(() => {
@@ -66,7 +81,11 @@ export default function Navbar() {
             >
                 {/* Logo - Always White/Negative */}
                 <div className="flex-1 relative z-50 pointer-events-none">
-                    <Link href="/" onClick={closeMenu} className="relative block w-24 h-8 hover:opacity-80 transition-opacity pointer-events-auto">
+                    <Link href="/" onClick={(e) => {
+                        e.preventDefault();
+                        closeMenu();
+                        gsap.to(window, { duration: 1.5, scrollTo: 0, ease: "power3.inOut" });
+                    }} className="relative block w-24 h-8 hover:opacity-80 transition-opacity pointer-events-auto">
                         <Image
                             src="/dipiuLogos/SVG/%233 Logomark Red Positive.svg"
                             alt="DiPiù Logo"
@@ -80,12 +99,12 @@ export default function Navbar() {
 
                 {/* Desktop Menu */}
                 <div className="hidden md:flex items-center gap-10 font-sans text-sm uppercase tracking-widest font-medium pointer-events-auto">
-                    <Link href="#products" className="hover:underline underline-offset-4 decoration-1">
+                    <a href="#products" onClick={(e) => handleScrollTo(e, "#products")} className="hover:underline underline-offset-4 decoration-1 cursor-pointer">
                         Our Products
-                    </Link>
-                    <Link href="#contact" className="hover:underline underline-offset-4 decoration-1">
+                    </a>
+                    <a href="#contact" onClick={(e) => handleScrollTo(e, "#contact")} className="hover:underline underline-offset-4 decoration-1 cursor-pointer">
                         Contact Us
-                    </Link>
+                    </a>
                     <a
                         href="mailto:wholesale@dipiu.com.au?subject=Wholesale%20Enquiry"
                         className="border border-current px-6 py-2 rounded-full hover:bg-current hover:text-dipiu-red transition-colors duration-300"
@@ -132,15 +151,19 @@ export default function Navbar() {
                 </div>
 
                 <div ref={menuContentRef} className="flex-1 flex flex-col justify-center items-center gap-10 p-6">
-                    <Link href="#products" onClick={closeMenu} className="menu-item font-sans text-5xl hover:text-dipiu-red transition-colors">
+                    <a href="#products" onClick={(e) => handleScrollTo(e, "#products")} className="menu-item font-sans text-5xl hover:text-dipiu-red transition-colors cursor-pointer">
                         Products
-                    </Link>
-                    <Link href="/" onClick={closeMenu} className="menu-item font-sans text-5xl hover:text-dipiu-red transition-colors">
+                    </a>
+                    <Link href="/" onClick={(e) => {
+                        e.preventDefault();
+                        closeMenu();
+                        gsap.to(window, { duration: 1.5, scrollTo: 0, ease: "power3.inOut" });
+                    }} className="menu-item font-sans text-5xl hover:text-dipiu-red transition-colors cursor-pointer">
                         Story
                     </Link>
-                    <Link href="#contact" onClick={closeMenu} className="menu-item font-sans text-5xl hover:text-dipiu-red transition-colors">
+                    <a href="#contact" onClick={(e) => handleScrollTo(e, "#contact")} className="menu-item font-sans text-5xl hover:text-dipiu-red transition-colors cursor-pointer">
                         Contact
-                    </Link>
+                    </a>
                     <div className="menu-item w-12 h-[1px] bg-dipiu-beige/20 my-4" />
                     <a
                         href="mailto:wholesale@dipiu.com.au"
