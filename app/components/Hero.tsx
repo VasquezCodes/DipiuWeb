@@ -1,23 +1,105 @@
 "use client";
 
-import { useRef } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
-import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
-import { Flip } from "gsap/Flip";
+// import { useRef } from "react";
+// import gsap from "gsap";
+// import { useGSAP } from "@gsap/react";
+// import { Flip } from "gsap/Flip";
 
-gsap.registerPlugin(Flip);
+// gsap.registerPlugin(Flip);
 
-const cards = [
-    "cardStack1.jpg",
-    "cardStack2.jpg",
-    "cardStack3v3.jpg",
-    "cardStack4.jpg",
-    "cardStack5.jpg",
-    "cardStack6.jpg",
+const slides = [
+    {
+        img: "cardStack1.jpg",
+        title: <>Hand<br />crafted<br />Tiramisù.</>,
+        subtitle: "Brisbane City • Queensland",
+        position: "justify-center items-center text-center"
+    },
+    {
+        img: "cardStack2.jpg",
+        title: <>Authentic<br />Italian<br />Recipe.</>,
+        subtitle: "A Taste of Heritage in Every Bite",
+        position: "justify-end items-start text-left pb-32 pl-6 md:pl-20"
+    },
+    {
+        img: "cardStack3v3.jpg",
+        title: <>Premium<br />Local<br />Ingredients.</>,
+        subtitle: "Mascarpone, Savoiardi & Espresso",
+        position: "justify-start items-end text-right pt-40 pr-6 md:pr-20"
+    },
+    {
+        img: "cardStack4.jpg",
+        title: <>Made<br />With<br />Passion.</>,
+        subtitle: "Small Batch • Big Flavour",
+        position: "justify-center items-start text-left pl-6 md:pl-20"
+    },
+    {
+        img: "cardStack5.jpg",
+        title: <>Sweet<br />Moments<br />Shared.</>,
+        subtitle: "Perfect for Any Occasion",
+        position: "justify-end items-end text-right pb-32 pr-6 md:pr-20"
+    },
+    {
+        img: "cardStack6.jpg",
+        title: <>Freshly<br />Prepared<br />Daily.</>,
+        subtitle: "Order Yours Today",
+        position: "justify-center items-center text-center"
+    }
 ];
 
 export default function Hero() {
+    // --- NEW IMPLEMENTATION: Background Slider ---
+    const [currentIndex, setCurrentIndex] = useState(0);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentIndex((prev) => (prev + 1) % slides.length);
+        }, 5000); // Change image every 5 seconds
+        return () => clearInterval(interval);
+    }, []);
+
+    return (
+        <section className="relative w-full h-[100svh] bg-dipiu-red overflow-hidden">
+            {slides.map((slide, index) => (
+                <div
+                    key={index}
+                    className={`absolute inset-0 w-full h-full transition-opacity duration-[2000ms] ease-in-out ${index === currentIndex ? "opacity-100 z-10" : "opacity-0 z-0"
+                        }`}
+                >
+                    {/* Background Image */}
+                    <div className="absolute inset-0 w-full h-full">
+                        <Image
+                            src={`/DipiuFotos/${slide.img}`}
+                            alt={`Hero Background ${index + 1}`}
+                            fill
+                            className="object-cover"
+                            priority={index === 0}
+                            quality={90}
+                        />
+                        {/* Overlay to ensure text readability */}
+                        <div className="absolute inset-0 bg-black/40" />
+                    </div>
+
+                    {/* Content */}
+                    <div className={`relative w-full h-full flex flex-col px-6 ${slide.position}`}>
+                        <div className={`flex flex-col ${slide.position.includes("text-center") ? "items-center" : slide.position.includes("text-right") ? "items-end" : "items-start"} transition-all duration-[2000ms] transform ${index === currentIndex ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
+                            }`}>
+                            <h1 className="font-serif text-[10vw] md:text-6xl lg:text-7xl leading-[0.9] tracking-tighter drop-shadow-lg">
+                                {slide.title}
+                            </h1>
+                            <p className="mt-8 font-sans text-sm md:text-sm tracking-[0.3em] uppercase opacity-90 border-t border-current pt-6 drop-shadow-md">
+                                {slide.subtitle}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            ))}
+        </section>
+    );
+
+    /* 
+    // --- OLD IMPLEMENTATION: Card Stack ---
     const containerRef = useRef<HTMLDivElement>(null);
     const stackRef = useRef<HTMLDivElement>(null);
 
@@ -139,7 +221,7 @@ export default function Hero() {
             className="relative min-h-[100svh] w-full bg-dipiu-red flex items-center justify-center overflow-hidden pt-32 pb-20 md:py-0"
         >
             <div className="container mx-auto px-6 md:px-12 grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-12 items-center h-full">
-                {/* Left: Typography */}
+                // Left: Typography 
                 <div className="z-10 text-dipiu-beige flex flex-col justify-center items-start order-2 md:order-1">
                     <h1 className="font-serif text-[15vw] md:text-8xl lg:text-9xl leading-[0.9] tracking-tighter">
                         Hand<br />crafted<br />Tiramisù.
@@ -149,7 +231,7 @@ export default function Hero() {
                     </p>
                 </div>
 
-                {/* Right: Card Stack Container */}
+                // Right: Card Stack Container
                 <div className="relative w-full h-[40svh] md:h-full flex items-center justify-center perspective-[1000px] order-1 md:order-2">
                     <div
                         ref={stackRef}
@@ -178,4 +260,5 @@ export default function Hero() {
             </div>
         </section>
     );
+    */
 }
