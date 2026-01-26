@@ -59,7 +59,7 @@ export default function Products() {
             <div className="container mx-auto px-6 md:px-12">
                 {/* Header */}
                 <div className="mb-20 text-center md:text-left">
-                    <h2 className="product-title font-serif text-5xl md:text-7xl leading-tight">
+                    <h2 className="product-title font-sans text-5xl md:text-7xl leading-tight">
                         Our<br />Collection.
                     </h2>
                     <div className="w-full h-[1px] bg-dipiu-beige/20 mt-8" />
@@ -84,7 +84,7 @@ export default function Products() {
 
                             {/* Info */}
                             <div className="flex justify-between items-baseline border-b border-dipiu-beige/20 pb-4">
-                                <h3 className="text-xl md:text-2xl font-serif">{product.name}</h3>
+                                <h3 className="text-xl md:text-2xl font-sans">{product.name}</h3>
                                 <span className="text-sm opacity-60 font-sans tracking-widest hidden group-hover:block animate-in fade-in duration-300">VIEW</span>
                             </div>
                         </div>

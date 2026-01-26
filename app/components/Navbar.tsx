@@ -111,7 +111,7 @@ export default function Navbar() {
                 className="fixed inset-0 z-[60] bg-dipiu-black text-dipiu-beige flex flex-col translate-x-full md:hidden"
             >
                 <div className="flex justify-between items-center px-6 py-6 border-b border-dipiu-beige/10">
-                    <span className="font-serif text-xl">Menu</span>
+                    <span className="font-sans text-xl">Menu</span>
                     <button
                         onClick={closeMenu}
                         className="flex items-center gap-2 text-sm uppercase tracking-widest hover:text-dipiu-red transition-colors cursor-pointer"
@@ -132,13 +132,13 @@ export default function Navbar() {
                 </div>
 
                 <div ref={menuContentRef} className="flex-1 flex flex-col justify-center items-center gap-10 p-6">
-                    <Link href="#products" onClick={closeMenu} className="menu-item font-serif text-5xl hover:text-dipiu-red transition-colors">
+                    <Link href="#products" onClick={closeMenu} className="menu-item font-sans text-5xl hover:text-dipiu-red transition-colors">
                         Products
                     </Link>
-                    <Link href="/" onClick={closeMenu} className="menu-item font-serif text-5xl hover:text-dipiu-red transition-colors">
+                    <Link href="/" onClick={closeMenu} className="menu-item font-sans text-5xl hover:text-dipiu-red transition-colors">
                         Story
                     </Link>
-                    <Link href="#contact" onClick={closeMenu} className="menu-item font-serif text-5xl hover:text-dipiu-red transition-colors">
+                    <Link href="#contact" onClick={closeMenu} className="menu-item font-sans text-5xl hover:text-dipiu-red transition-colors">
                         Contact
                     </Link>
                     <div className="menu-item w-12 h-[1px] bg-dipiu-beige/20 my-4" />

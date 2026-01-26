@@ -14,33 +14,39 @@ export default function Home() {
   }, []);
 
   return (
-    <main className="relative w-full bg-dipiu-beige min-h-[100svh]">
-
+    <main className="relative w-full min-h-screen bg-dipiu-black">
       {/* 
-        Layered Pinning Logic:
-        1. Hero is STICKY at top (z-0). It stays put while we scroll down.
-        2. Products is RELATIVE (z-10) with solid background. It scrolls OVER the Hero.
-        3. Footer is RELATIVE (z-20). It scrolls normally after Products.
+        Fix for Mobile "Sticky" Jitter:
+        Instead of position: sticky, we use position: fixed for the Hero 
+        and a transparent spacer in the normal flow.
+        
+        1. Hero is FIXED at the back (z-0).
+        2. Content wrapper is RELATIVE (z-10) and scrolls over it.
+        3. The first element in content wrapper is a TRANSPARENT SPACER equal to Hero height.
       */}
 
-      {/* Layer 1: Hero (Sticky) */}
-      {/* Height must be explicitly 100svh for sticky to work nicely as a full-screen panel, 
-          but Hero component handles its own height. We just wrap it or let it be.
-          Hero has 'min-h-[100svh]'. We add 'sticky top-0' to it.
-      */}
-      <div className="sticky top-0 left-0 w-full h-[100svh] z-0">
+      {/* Hero Layer (Fixed) */}
+      <div className="fixed top-0 left-0 w-full h-[100svh] z-0">
         <Hero />
       </div>
 
-      {/* Layer 2: Products (Scrolls over Hero) */}
-      <div className="relative z-10 w-full bg-dipiu-black">
-        <Products />
-      </div>
+      {/* Scrollable Content Layer (Relative) */}
+      <div className="relative z-10 w-full flex flex-col">
 
-      {/* Layer 3: Footer */}
-      <footer className="relative z-20 py-8 bg-dipiu-red text-center text-dipiu-beige font-light text-sm uppercase tracking-widest">
-        &copy; {new Date().getFullYear()} DiPiù. All Rights Reserved.
-      </footer>
+        {/* Transparent Spacer (Reveals Hero) */}
+        <div className="w-full h-[100svh] bg-transparent pointer-events-none" />
+
+        {/* Solid Content (Covers Hero) */}
+        <div className="w-full bg-dipiu-black">
+          <Products />
+        </div>
+
+        {/* Footer */}
+        <footer className="w-full py-8 bg-dipiu-red text-center text-dipiu-beige font-light text-sm uppercase tracking-widest">
+          &copy; {new Date().getFullYear()} DiPiù. All Rights Reserved.
+        </footer>
+
+      </div>
     </main>
   );
 }
