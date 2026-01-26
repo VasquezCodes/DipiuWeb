@@ -4,6 +4,8 @@ import localFont from "next/font/local";
 import "./globals.css";
 import SmoothScroll from "./components/SmoothScroll";
 import Navbar from "./components/Navbar";
+import { WholesaleProvider } from "./context/WholesaleContext";
+import WholesaleOverlay from "./components/WholesaleOverlay";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -36,9 +38,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${sweetSans.variable} antialiased`}
       >
-        <SmoothScroll />
-        <Navbar />
-        {children}
+        <WholesaleProvider>
+          <SmoothScroll />
+          <Navbar />
+          <WholesaleOverlay />
+          {children}
+        </WholesaleProvider>
       </body>
     </html>
   );

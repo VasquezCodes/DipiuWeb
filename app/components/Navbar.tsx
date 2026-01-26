@@ -7,16 +7,18 @@ import gsap from "gsap";
 import ScrollTrigger from "gsap/ScrollTrigger";
 import ScrollToPlugin from "gsap/ScrollToPlugin";
 import Link from "next/link";
+import { useWholesale } from "../context/WholesaleContext";
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 export default function Navbar() {
+    const { openWholesale } = useWholesale();
     const navRef = useRef(null);
     const containerRef = useRef(null);
     const menuOverlayRef = useRef(null);
     const menuContentRef = useRef(null);
 
-    // Mobile Menu State
+    // Estado del Menú Móvil
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
@@ -36,7 +38,7 @@ export default function Navbar() {
         }
     };
 
-    // 1. Entry Animation (Runs once)
+    // 1. Animación de Entrada (Solo una vez)
     useGSAP(() => {
         gsap.from(containerRef.current, {
             y: -100,
@@ -47,7 +49,7 @@ export default function Navbar() {
         });
     }, { scope: navRef });
 
-    // 2. Menu Logic
+    // 2. Lógica del Menú
     useEffect(() => {
         if (!menuOverlayRef.current) return;
 
@@ -79,7 +81,7 @@ export default function Navbar() {
                 // Static color: text-dipiu-beige (White-ish)
                 className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 py-6 md:px-12 md:py-8 text-dipiu-beige pointer-events-none"
             >
-                {/* Logo - Always White/Negative */}
+                {/* Logo - Siempre Blanco/Negativo */}
                 <div className="flex-1 relative z-50 pointer-events-none">
                     <Link href="/" onClick={(e) => {
                         e.preventDefault();
@@ -97,7 +99,7 @@ export default function Navbar() {
                     </Link>
                 </div>
 
-                {/* Desktop Menu */}
+                {/* Menú de Escritorio */}
                 <div className="hidden md:flex items-center gap-10 font-sans text-sm uppercase tracking-widest font-medium pointer-events-auto">
                     <a href="#products" onClick={(e) => handleScrollTo(e, "#products")} className="hover:underline underline-offset-4 decoration-1 cursor-pointer">
                         Our Products
@@ -105,15 +107,15 @@ export default function Navbar() {
                     <a href="#contact" onClick={(e) => handleScrollTo(e, "#contact")} className="hover:underline underline-offset-4 decoration-1 cursor-pointer">
                         Contact Us
                     </a>
-                    <a
-                        href="mailto:wholesale@dipiu.com.au?subject=Wholesale%20Enquiry"
-                        className="border border-current px-6 py-2 rounded-full hover:bg-current hover:text-dipiu-red transition-colors duration-300"
+                    <button
+                        onClick={openWholesale}
+                        className="border border-dipiu-beige px-6 py-2 rounded-full hover:bg-dipiu-red hover:text-dipiu-beige hover:border-dipiu-red transition-colors duration-300 cursor-pointer"
                     >
                         Wholesale
-                    </a>
+                    </button>
                 </div>
 
-                {/* Mobile Burger */}
+                {/* Botón Hamburguesa Móvil */}
                 <button
                     className="md:hidden relative z-[51] w-8 h-8 flex flex-col justify-center items-end gap-1.5 focus:outline-none cursor-pointer pointer-events-auto"
                     onClick={toggleMenu}
@@ -124,7 +126,7 @@ export default function Navbar() {
                 </button>
             </div>
 
-            {/* Mobile Menu Overlay */}
+            {/* Capa del Menú Móvil */}
             <div
                 ref={menuOverlayRef}
                 className="fixed inset-0 z-[60] bg-dipiu-black text-dipiu-beige flex flex-col translate-x-full md:hidden"
@@ -165,12 +167,12 @@ export default function Navbar() {
                         Contact
                     </a>
                     <div className="menu-item w-12 h-[1px] bg-dipiu-beige/20 my-4" />
-                    <a
-                        href="mailto:wholesale@dipiu.com.au"
-                        className="menu-item font-sans text-sm uppercase tracking-widest border border-dipiu-beige px-10 py-4 rounded-full hover:bg-dipiu-beige hover:text-dipiu-black transition-colors"
+                    <button
+                        onClick={() => { closeMenu(); openWholesale(); }}
+                        className="menu-item font-sans text-sm uppercase tracking-widest border border-dipiu-beige px-10 py-4 rounded-full hover:bg-dipiu-beige hover:text-dipiu-black transition-colors cursor-pointer"
                     >
                         Wholesale
-                    </a>
+                    </button>
                 </div>
             </div>
         </nav>

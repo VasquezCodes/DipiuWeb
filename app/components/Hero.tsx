@@ -2,12 +2,6 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
-// import { useRef } from "react";
-// import gsap from "gsap";
-// import { useGSAP } from "@gsap/react";
-// import { Flip } from "gsap/Flip";
-
-// gsap.registerPlugin(Flip);
 
 const slides = [
     {
@@ -49,20 +43,20 @@ const slides = [
 ];
 
 export default function Hero() {
-    // --- NEW IMPLEMENTATION: Background Slider ---
+    // --- Implementación: Slider de Fondo ---
     const [currentIndex, setCurrentIndex] = useState(0);
 
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentIndex((prev) => (prev + 1) % slides.length);
-        }, 5000); // Change image every 5 seconds
+        }, 5000);
         return () => clearInterval(interval);
     }, []);
 
     return (
         <section className="relative w-full h-[100svh] bg-dipiu-red overflow-hidden">
-            {/* Carousel Indicators (Below Logo) - Fixed Position */}
-            {/* Carousel Indicators (Below Logo) - Fixed Position */}
+            {/* Indicadores del Carrusel (Fijos) */}
+
             <div className="absolute top-32 left-6 md:top-40 md:left-12 z-30 flex gap-3">
                 {slides.map((_, index) => (
                     <button
@@ -77,14 +71,14 @@ export default function Hero() {
                 ))}
             </div>
 
-            {/* Slides */}
+            {/* Diapositivas */}
             {slides.map((slide, index) => (
                 <div
                     key={index}
                     className={`absolute inset-0 w-full h-full transition-opacity duration-[2000ms] ease-in-out ${index === currentIndex ? "opacity-100 z-10" : "opacity-0 z-0"
                         }`}
                 >
-                    {/* Background Image */}
+                    {/* Imagen de Fondo */}
                     <div className="absolute inset-0 w-full h-full">
                         <Image
                             src={`/DipiuFotos/${slide.img}`}
@@ -95,11 +89,11 @@ export default function Hero() {
                             quality={100}
                             unoptimized
                         />
-                        {/* Overlay to ensure text readability */}
+                        {/* Capa oscura para legibilidad */}
                         <div className="absolute inset-0 bg-black/40" />
                     </div>
 
-                    {/* Content */}
+                    {/* Contenido */}
                     <div className={`relative w-full h-full flex flex-col px-6 ${slide.position}`}>
                         <div className={`flex flex-col ${slide.position.includes("text-center") ? "items-center" : slide.position.includes("text-right") ? "items-end" : "items-start"} transition-all duration-[2000ms] transform ${index === currentIndex ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
                             }`}>

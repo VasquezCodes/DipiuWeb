@@ -2,51 +2,79 @@
 
 import Hero from "./components/Hero";
 import Products from "./components/Products";
-import { useEffect } from "react";
-import Lenis from "lenis";
+import Footer from "./components/Footer";
+import { useRef } from "react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+// Importante: Registrar el plugin fuera del componente
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 export default function Home() {
+  const mainRef = useRef<HTMLElement>(null);
+  const heroRef = useRef<HTMLDivElement>(null);
+  const contentRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    // Lenis is already initiated in layout/SmoothScroll? 
-    // If layout handles it, we don't need to do it here.
-    // Based on previous files, layout.tsx uses <SmoothScroll>.
-  }, []);
+  useGSAP(() => {
+    const hero = heroRef.current;
+
+    // --- Implementación del Efecto de Capas "Pinned" ---
+    // Usamos ScrollTrigger para 'pinear' el Hero mientras el contenido sube.
+
+    const pin = ScrollTrigger.create({
+      trigger: hero,
+      start: "top top",
+      end: "bottom top",
+      pin: true,
+      pinSpacing: false, // CLAVE: Permite que el contenido (Products) suba SOBRE el Hero
+      scrub: true
+    });
+
+    // Escala y oscurecimiento progresivo del Hero al hacer scroll
+    gsap.to(hero, {
+      scale: 0.95, // Se aleja ligeramente
+      opacity: 0.6, // Se oscurece para dar foco al contenido nuevo
+      ease: "none",
+      scrollTrigger: {
+        trigger: hero,
+        start: "top top",
+        end: "bottom top", // Dura toda la altura del viewport
+        scrub: true
+      }
+    });
+
+    return () => {
+      pin.kill();
+    };
+
+  }, { scope: mainRef });
 
   return (
-    <main className="relative w-full min-h-screen bg-dipiu-black">
-      {/* 
-        Fix for Mobile "Sticky" Jitter:
-        Instead of position: sticky, we use position: fixed for the Hero 
-        and a transparent spacer in the normal flow.
-        
-        1. Hero is FIXED at the back (z-0).
-        2. Content wrapper is RELATIVE (z-10) and scrolls over it.
-        3. The first element in content wrapper is a TRANSPARENT SPACER equal to Hero height.
-      */}
+    <main ref={mainRef} className="relative w-full bg-dipiu-black">
 
-      {/* Hero Layer (Fixed) */}
-      <div className="fixed top-0 left-0 w-full h-[100svh] z-0">
+      {/* 
+        CAPA INF: Hero (Pinned via GSAP) 
+        Ya no usamos position: fixed CSS. GSAP se encarga del pinning.
+        z-0 para estar al fondo.
+      */}
+      <div ref={heroRef} className="w-full h-[100svh] z-0 will-change-transform">
         <Hero />
       </div>
 
-      {/* Scrollable Content Layer (Relative) */}
-      <div className="relative z-10 w-full flex flex-col">
-
-        {/* Transparent Spacer (Reveals Hero) */}
-        <div className="w-full h-[100svh] bg-transparent pointer-events-none" />
-
-        {/* Solid Content (Covers Hero) */}
-        <div className="w-full bg-dipiu-black">
-          <Products />
-        </div>
-
-        {/* Footer */}
-        <footer id="contact" className="w-full py-8 bg-dipiu-red text-center text-dipiu-beige font-light text-sm uppercase tracking-widest">
-          &copy; {new Date().getFullYear()} DiPiù. All Rights Reserved.
-        </footer>
-
+      {/* 
+        CAPA SUP: Contenido (Products + Footer)
+        z-10 y background sólido para tapar al Hero mientras sube.
+        No necesitamos margins raros, el flujo normal del DOM hará que esto empiece debajo del Hero,
+        pero como el Hero está 'pinned' (fixed por GSAP), esto subirá visualmente.
+      */}
+      <div ref={contentRef} className="relative z-10 w-full bg-dipiu-black shadow-[0_-50px_100px_rgba(0,0,0,0.5)]">
+        <Products />
+        <Footer />
       </div>
+
     </main>
   );
 }

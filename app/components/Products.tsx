@@ -6,7 +6,9 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-gsap.registerPlugin(ScrollTrigger);
+import { ScrollToPlugin } from "gsap/ScrollToPlugin";
+
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 const products = [
     { id: 1, name: "Il Classico", image: "classic.jpg" },
@@ -26,7 +28,7 @@ export default function Products() {
     const sectionRef = useRef<HTMLElement>(null);
     const [currentSlide, setCurrentSlide] = useState(0);
 
-    // Carousel Logic
+    // Lógica del Carrusel
     useEffect(() => {
         const interval = setInterval(() => {
             setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
@@ -38,7 +40,7 @@ export default function Products() {
         const section = sectionRef.current;
         if (!section) return;
 
-        // Hero Text Animation
+        // Animación del Texto Hero
         const tl = gsap.timeline();
         tl.from(".hero-subtitle", {
             y: 20,
@@ -52,9 +54,15 @@ export default function Products() {
                 opacity: 0,
                 duration: 1,
                 ease: "power3.out"
+            }, "-=0.5")
+            .to(".hero-cta", {
+                y: 0,
+                opacity: 1,
+                duration: 1,
+                ease: "power3.out"
             }, "-=0.5");
 
-        // Title/Intro Animation
+        // Animación Título/Intro
         gsap.from(".product-intro", {
             scrollTrigger: {
                 trigger: ".product-content",
@@ -66,7 +74,7 @@ export default function Products() {
             ease: "power3.out"
         });
 
-        // Grid Stagger Animation
+        // Animación Escalonada del Grid
         gsap.from(".product-card", {
             scrollTrigger: {
                 trigger: ".product-grid",
@@ -87,7 +95,7 @@ export default function Products() {
             ref={sectionRef}
             className="relative w-full bg-dipiu-black text-dipiu-beige overflow-hidden"
         >
-            {/* 3-Image Carousel with Ken Burns Effect */}
+            {/* Carrusel de 3 imágenes con efecto Ken Burns */}
             <div className="relative w-full aspect-[16/9] md:aspect-auto md:h-[70vh] overflow-hidden bg-dipiu-black">
                 {heroSlides.map((slide, index) => (
                     <div
@@ -95,7 +103,7 @@ export default function Products() {
                         className={`absolute inset-0 w-full h-full transition-opacity duration-[1500ms] ease-in-out ${index === currentSlide ? "opacity-100 z-10" : "opacity-0 z-0"
                             }`}
                     >
-                        {/* Scale Wrapper for Ken Burns */}
+                        {/* Wrapper para escala (Ken Burns) */}
                         <div className={`w-full h-full transition-transform duration-[6000ms] ease-out ${index === currentSlide ? "scale-105" : "scale-100"
                             }`}>
                             <Image
@@ -107,22 +115,40 @@ export default function Products() {
                                 className="object-cover"
                             />
                         </div>
-                        {/* Dark Overlay per slide to ensure consistent contrast */}
+                        {/* Capa oscura para contraste */}
                         <div className="absolute inset-0 bg-black/30" />
                     </div>
                 ))}
 
-                {/* Hero Content Overlay */}
+                {/* Superposición de Contenido Hero */}
                 <div className="absolute inset-0 flex flex-col justify-end items-start md:justify-center md:items-center z-20 text-left md:text-center p-6 md:p-0">
                     <span className="hero-subtitle font-sans text-[10px] md:text-sm uppercase tracking-[0.3em] mb-2 md:mb-4 text-dipiu-beige/80">
                         Local Fresh • With Love
                     </span>
-                    <h2 className="hero-title font-sans text-2xl md:text-6xl text-dipiu-beige tracking-tighter drop-shadow-2xl">
+                    <h2 className="hero-title font-sans text-2xl md:text-6xl text-dipiu-beige tracking-tighter drop-shadow-2xl mb-8">
                         Made from Scratch.
                     </h2>
+
+                    {/* CTA Button */}
+                    <button
+                        onClick={() => {
+                            const grid = document.querySelector(".product-content");
+                            if (grid) {
+                                gsap.to(window, { duration: 1.5, scrollTo: { y: grid, offsetY: 100 }, ease: "power3.inOut" });
+                            }
+                        }}
+                        className="hero-cta group relative px-6 py-2 overflow-hidden rounded-full border border-dipiu-beige/30 bg-dipiu-black/20 backdrop-blur-sm transition-all duration-500 hover:bg-dipiu-beige hover:border-dipiu-beige opacity-0 translate-y-4"
+                    >
+                        <span className="relative z-10 font-sans text-[10px] md:text-xs uppercase tracking-[0.2em] text-dipiu-beige group-hover:text-dipiu-black transition-colors duration-500 flex items-center gap-2">
+                            Discover our flavours
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-3 h-3 transform group-hover:translate-y-0.5 transition-transform duration-300">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+                            </svg>
+                        </span>
+                    </button>
                 </div>
 
-                {/* Texture Overlay (Grain) - Optional for that "Film/Editorial" look */}
+                {/* Superposición de Textura (Grano) */}
                 <div className="absolute inset-0 z-30 pointer-events-none opacity-20 mix-blend-overlay"
                     style={{ backgroundImage: `url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E")` }}
                 />
@@ -137,10 +163,13 @@ export default function Products() {
                     <div className="w-24 h-[1px] bg-dipiu-red mt-8 mx-auto md:mx-0" />
                 </div>
 
-                {/* Grid */}
-                <div className="product-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
+                {/* Grid (Flex para centrar elementos impares) */}
+                <div className="product-grid flex flex-wrap justify-center gap-x-8 gap-y-16">
                     {products.map((product) => (
-                        <div key={product.id} className="product-card group cursor-pointer">
+                        <div
+                            key={product.id}
+                            className="product-card group cursor-pointer w-full md:w-[calc(50%-1rem)] lg:w-[calc(33.333%-1.34rem)]" // Flex widths: Mobile 100%, MD 2-col, LG 3-col
+                        >
                             {/* Image Wrapper */}
                             <div className="relative w-full aspect-[4/5] overflow-hidden rounded-lg mb-6 shadow-2xl bg-dipiu-black/50">
                                 <Image

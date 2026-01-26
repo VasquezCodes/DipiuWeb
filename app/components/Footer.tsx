@@ -1,0 +1,80 @@
+"use client";
+
+import Image from "next/image";
+import Link from "next/link";
+import { useWholesale } from "../context/WholesaleContext";
+
+export default function Footer() {
+    const { openWholesale } = useWholesale();
+
+    return (
+        <footer id="contact" className="w-full bg-dipiu-red text-dipiu-beige font-sans">
+            {/* Contenido Principal */}
+            <div className="container mx-auto px-6 py-8 md:py-10 flex flex-col md:flex-row justify-between items-center gap-8 md:gap-8">
+
+                {/* 1. Sección Logo (Izquierda) */}
+                <div className="flex-1 flex justify-center md:justify-start">
+                    <div className="relative w-32 h-16 md:w-40 md:h-20">
+                        <Image
+                            src="/dipiuLogos/SVG/%233 Logomark Red Positive.svg"
+                            alt="DiPiù Logo"
+                            fill
+                            className="object-contain brightness-0 invert"
+                        />
+                    </div>
+                </div>
+
+                {/* 2. Centro: Redes y Enlaces */}
+                <div className="flex-1 flex flex-col items-center gap-8">
+                    {/* Iconos Sociales */}
+                    <div className="flex gap-4">
+                        {/* Facebook */}
+                        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-dipiu-beige rounded-full flex items-center justify-center text-dipiu-red hover:bg-white transition-colors duration-300">
+                            <svg fill="currentColor" viewBox="0 0 24 24" className="w-5 h-5">
+                                <path d="M9.101 23.691v-7.98H6.627v-3.667h2.474v-1.58c0-4.085 1.848-5.978 5.858-5.978.401 0 .955.042 1.468.103a8.68 8.68 0 0 1 1.141.195v3.325a8.623 8.623 0 0 0-.653-.036c-2.148 0-2.791 1.657-2.791 3.593v1.66h4.143l-.53 3.667h-3.613v7.98H9.101Z" />
+                            </svg>
+                        </a>
+                        {/* Instagram */}
+                        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-dipiu-beige rounded-full flex items-center justify-center text-dipiu-red hover:bg-white transition-colors duration-300">
+                            <svg fill="currentColor" viewBox="0 0 24 24" className="w-5 h-5">
+                                <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069ZM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0Zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324ZM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8Zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881Z" />
+                            </svg>
+                        </a>
+                        {/* TikTok */}
+                        <a href="https://tiktok.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-dipiu-beige rounded-full flex items-center justify-center text-dipiu-red hover:bg-white transition-colors duration-300">
+                            <svg fill="currentColor" viewBox="0 0 24 24" className="w-5 h-5">
+                                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 1 0-1 13.6 6.84 6.84 0 0 0 6.8-6.84V7.95a8.32 8.32 0 0 0 4.79 1.46V5.83a4.86 4.86 0 0 1-1.36-.6Z" />
+                            </svg>
+                        </a>
+                    </div>
+
+                    {/* Enlaces */}
+                    <div className="flex flex-wrap justify-center gap-6 font-medium text-xs md:text-sm uppercase tracking-widest text-dipiu-beige/90">
+                        <Link href="/" className="hover:text-white transition-colors">Privacy Policy</Link>
+                        <Link href="/" className="hover:text-white transition-colors">About Us</Link>
+                        <Link href="#contact" className="hover:text-white transition-colors">Contact Us</Link>
+                        <button onClick={openWholesale} className="hover:text-white transition-colors cursor-pointer uppercase">Wholesale</button>
+                    </div>
+                </div>
+
+                {/* 3. Eslogan (Derecha) */}
+                <div className="flex-1 flex justify-center md:justify-end">
+                    <div className="text-center md:text-right cursor-default group">
+                        <h3 className="font-sans text-2xl md:text-3xl font-bold leading-none tracking-tighter text-dipiu-beige drop-shadow-sm group-hover:scale-105 transition-transform duration-300">
+                            MADE FROM<br />SCRATCH.
+                        </h3>
+                        <span className="block text-[0.6rem] uppercase tracking-[0.4em] opacity-80 mt-1">Since 2024</span>
+                    </div>
+                </div>
+
+            </div>
+
+            {/* Franja Inferior */}
+            <div className="w-full bg-black/10 py-4 text-center">
+                <p className="text-[10px] md:text-xs uppercase tracking-widest opacity-60">
+                    &copy; {new Date().getFullYear()} DiPiù. Handcrafted in Brisbane.
+                </p>
+            </div>
+        </footer>
+    );
+}
