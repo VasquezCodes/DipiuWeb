@@ -92,7 +92,7 @@ export default function Hero() {
                             fill
                             className="object-cover"
                             priority={index === 0}
-                            quality={90}
+                            quality={100}
                         />
                         {/* Overlay to ensure text readability */}
                         <div className="absolute inset-0 bg-black/40" />
