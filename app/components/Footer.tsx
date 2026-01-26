@@ -24,9 +24,8 @@ export default function Footer() {
                     </div>
                 </div>
 
-                {/* 2. Centro: Redes y Enlaces */}
-                <div className="flex-1 flex flex-col items-center gap-8">
-                    {/* Iconos Sociales */}
+                {/* 2. Centro: Redes Sociales */}
+                <div className="flex-1 flex justify-center items-center">
                     <div className="flex gap-4">
                         {/* Facebook */}
                         <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="w-10 h-10 bg-dipiu-beige rounded-full flex items-center justify-center text-dipiu-red hover:bg-white transition-colors duration-300">
@@ -47,23 +46,15 @@ export default function Footer() {
                             </svg>
                         </a>
                     </div>
+                </div>
 
-                    {/* Enlaces */}
-                    <div className="flex flex-wrap justify-center gap-6 font-medium text-xs md:text-sm uppercase tracking-widest text-dipiu-beige/90">
+                {/* 3. Derecha: Enlaces */}
+                <div className="flex-1 flex justify-center md:justify-end">
+                    <div className="flex flex-col items-center md:items-end gap-2 font-medium text-xs md:text-sm uppercase tracking-widest text-dipiu-beige/90">
                         <Link href="/" className="hover:text-white transition-colors">Privacy Policy</Link>
                         <Link href="/" className="hover:text-white transition-colors">About Us</Link>
                         <Link href="#contact" className="hover:text-white transition-colors">Contact Us</Link>
                         <button onClick={openWholesale} className="hover:text-white transition-colors cursor-pointer uppercase">Wholesale</button>
-                    </div>
-                </div>
-
-                {/* 3. Eslogan (Derecha) */}
-                <div className="flex-1 flex justify-center md:justify-end">
-                    <div className="text-center md:text-right cursor-default group">
-                        <h3 className="font-sans text-2xl md:text-3xl font-bold leading-none tracking-tighter text-dipiu-beige drop-shadow-sm group-hover:scale-105 transition-transform duration-300">
-                            MADE FROM<br />SCRATCH.
-                        </h3>
-                        <span className="block text-[0.6rem] uppercase tracking-[0.4em] opacity-80 mt-1">Since 2024</span>
                     </div>
                 </div>
 
