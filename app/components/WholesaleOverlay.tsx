@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useWholesale } from "../context/WholesaleContext";
@@ -11,6 +11,8 @@ export default function WholesaleOverlay() {
     const backdropRef = useRef<HTMLDivElement>(null);
     const panelRef = useRef<HTMLDivElement>(null);
     const formRef = useRef<HTMLFormElement>(null);
+
+    const [interests, setInterests] = useState<string[]>([]); // Track selected products
 
     const tlRef = useRef<gsap.core.Timeline | null>(null);
 
@@ -94,6 +96,29 @@ export default function WholesaleOverlay() {
                         <div className="flex flex-col gap-2">
                             <label className="text-xs uppercase tracking-widest font-bold">Email Address</label>
                             <input type="email" placeholder="hello@example.com" className="w-full bg-transparent border-b border-dipiu-black/20 py-2 focus:border-dipiu-red focus:outline-none transition-colors" />
+                        </div>
+
+                        <div className="flex flex-col gap-3">
+                            <label className="text-xs uppercase tracking-widest font-bold">I'm interested in...</label>
+                            <div className="flex gap-4">
+                                <button
+                                    type="button"
+                                    onClick={() => setInterests(prev => prev.includes('tiramisu') ? prev.filter(i => i !== 'tiramisu') : [...prev, 'tiramisu'])}
+                                    className={`flex-1 py-6 px-4 border transition-all duration-300 flex flex-col items-center gap-1 group ${interests.includes('tiramisu') ? 'bg-dipiu-coffee border-dipiu-coffee text-dipiu-beige' : 'bg-white border-dipiu-black/10 hover:border-dipiu-coffee/50 text-dipiu-black/60'}`}
+                                >
+                                    <span className="font-serif text-xl italic">Tiramisù</span>
+                                    <span className="text-[10px] uppercase tracking-widest opacity-60">Classic Collection</span>
+                                </button>
+
+                                <button
+                                    type="button"
+                                    onClick={() => setInterests(prev => prev.includes('sorbet') ? prev.filter(i => i !== 'sorbet') : [...prev, 'sorbet'])}
+                                    className={`flex-1 py-6 px-4 border transition-all duration-300 flex flex-col items-center gap-1 group ${interests.includes('sorbet') ? 'bg-orange-50 border-orange-200 text-orange-900' : 'bg-white border-dipiu-black/10 hover:border-orange-200 text-dipiu-black/60'}`}
+                                >
+                                    <span className="font-serif text-xl italic">Fruit Sorbets</span>
+                                    <span className="text-[10px] uppercase tracking-widest opacity-60">100% Natural</span>
+                                </button>
+                            </div>
                         </div>
 
                         <div className="flex flex-col gap-2">

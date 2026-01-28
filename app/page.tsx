@@ -2,6 +2,8 @@
 
 import Hero from "./components/Hero";
 import Products from "./components/Products";
+import FruitBanner from "./components/FruitBanner";
+import FruitSorbets from "./components/FruitSorbets";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import { useRef } from "react";
@@ -90,56 +92,18 @@ export default function Home() {
         <Products />
       </div>
 
-      {/* LAYER 2: Contact + Footer */}
-      {/* 
-         Similar logic: If Products pins with pinSpacing:false at the bottom, we might need a margin?
-         However, 'bottom bottom' pinning is tricky.
-         Usually for stacking cards with variable heights, 'sticky' CSS is safer.
-         But let's try this: if Products is pinned at bottom, it stays. The next siblings naturally flow up?
-         If pinSpacing: false, space collapses.
-         So Contact jumps UP.
-         So Contact needs margin-top equal to visible height of products? 
-         Or we just wrap Contact in a container that has proper spacing.
-         
-         Actually, there's a simpler 'Sticky' trick:
-         Just make every section 'sticky top-0' (or appropriate offset) and let them stack naturally via z-index.
-         
-         Let's stick to the robust GSAP Hero fix (marginTop) which is guaranteed to work.
-         And for Contact, let's keep it simple for now (z-20) and see if the 'bottom bottom' pin works.
-         Actually, if pinSpacing: false on Products, Contact jumps up.
-         Contact content will overlap Products content immediately at trigger point.
-         Since trigger is "bottom bottom", that's exactly when we want Contact to appear?
-         Yes!
-         If Products hits bottom, it pins (freezes). Space collapses.
-         Contact (which was below) jumps up to where Products WAS.
-         So Contact covers Products.
-         This actually handles itself if z-index is correct!
-         See: If Products bottom is at viewport bottom.
-         We pin. Products becomes fixed at that position.
-         Constraint: Products height collapses from flow.
-         Contact moves up.
-         Since Products was filling the screen (mostly), Contact sliding up covers it.
-         One catch: If Products > viewport, and we pin at bottom... the text "Contact" appears at the position Products Top was?
-         No, Contact appears at `Products Top + Products Height` (normally).
-         If Height -> 0.
-         Contact appears at Products Top.
-         So yes, Contact jumps to top of Products.
-         Since `start: bottom bottom` means we are looking at the bottom.
-         So Contact jumps to top of viewport?
-         Wait, if Products is taller than viewport, Top is way up.
-         So Contact jumps to Top, i.e. out of view (above)? Or covering visible area?
-         
-         Let's try margin-top on Contact too, just to be safe?
-         Actually, pure CSS sticky is so much better for this.
-         "Hero: sticky top-0". Products: z-10 background-black.
-         This achieves 80% of the effect with 0 bugs.
-         
-         I will use the CSS Sticky approach for Hero as it's cleaner than the GSAP pinSpacing hack.
-         I will REMOVE the GSAP pin for Hero and use CSS.
-         
-       */
-      }
-      <div ref={contactRef} className="relative z-20 w-full bg-dipiu-black shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
+      {/* LAYER 2: Fruit Banner */}
+      <div className="relative z-15 w-full bg-dipiu-red">
+        <FruitBanner />
+      </div>
+
+      {/* LAYER 3: Fruit Sorbets (Horizontal Scroll) */}
+      <div className="relative z-20 w-full bg-dipiu-beige">
+        <FruitSorbets />
+      </div>
+
+      {/* LAYER 4: Contact + Footer */}
+      <div ref={contactRef} className="relative z-30 w-full bg-dipiu-black shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
         <Contact />
         <Footer />
       </div>
