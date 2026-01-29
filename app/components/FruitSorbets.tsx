@@ -104,7 +104,7 @@ export default function FruitSorbets() {
                             Pure Joy.
                         </h2>
                         <p className="text-xl md:text-2xl opacity-70 font-sans leading-relaxed max-w-2xl mx-auto">
-                            Our sorbets are crafted with 100% natural fruit. No dairy, no artificial flavors—just the honest, vibrant taste of nature's best.
+                            Our sorbets are crafted with 100% natural fruit. No dairy, no artificial flavours—just the honest, vibrant taste of nature's best.
                         </p>
                         <div className="mt-12 animate-bounce opacity-50">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 md:w-10 md:h-10 mx-auto rotate-[-90deg]">
@@ -152,6 +152,28 @@ export default function FruitSorbets() {
                         </div>
                     </div>
                 ))}
+
+                {/* Coming Soon Slide */}
+                <div className="w-screen h-full flex-shrink-0 flex flex-col justify-center items-center p-8 md:p-20 text-center relative bg-dipiu-black text-dipiu-beige">
+                    <span className="block text-sm md:text-base font-sans font-bold tracking-[0.3em] uppercase mb-6 text-dipiu-red">
+                        Expanded Menu
+                    </span>
+                    <h2 className="text-5xl md:text-8xl font-serif font-medium mb-16 leading-tight">
+                        Coming Soon
+                    </h2>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-8 text-2xl md:text-4xl font-serif">
+                        {[
+                            "Cookies & Cream",
+                            "Dulce de Leche",
+                            "Chocolate Brownie",
+                            "Biscoff"
+                        ].map((flavour, index) => (
+                            <span key={index} className="opacity-60 hover:opacity-100 hover:text-dipiu-red transition-all duration-300 cursor-default">
+                                {flavour}
+                            </span>
+                        ))}
+                    </div>
+                </div>
             </div>
         </section>
     );

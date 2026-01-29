@@ -27,7 +27,7 @@ export default function Contact() {
                 </span>
 
                 <h2 className="text-4xl md:text-6xl font-bold tracking-tighter mb-12 leading-none">
-                    Have a sweet<br />inquiry?
+                    Have a sweet<br />enquiry?
                 </h2>
 
                 <div className="flex flex-col gap-8 md:gap-12 items-center">

@@ -11,11 +11,36 @@ import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 const products = [
-    { id: 1, name: "Il Classico", image: "classic.jpg" },
-    { id: 2, name: "Pistacchio Siciliano", image: "pistacchio.jpg" },
-    { id: 3, name: "Biscoff Crunch", image: "biscoff.jpg" },
-    { id: 4, name: "Nutella & Hazelnut", image: "nutella.jpg" },
-    { id: 5, name: "Limone Fresco", image: "limone.jpg" },
+    {
+        id: 1,
+        name: "Il Classico",
+        image: "classic.jpg",
+        description: "The timeless Italian icon. Authentic Savoiardi fingers soaked in rich espresso, layered with velvety mascarpone cream and dusted with premium cocoa powder."
+    },
+    {
+        id: 2,
+        name: "Pistacchio Siciliano",
+        image: "pistacchio.jpg",
+        description: "A luxurious Sicilian twist. Espresso-infused Savoiardi and creamy mascarpone blended with pure pistachio paste, finished with a crunch of crushed pistachios."
+    },
+    {
+        id: 3,
+        name: "Biscoff Crunch",
+        image: "biscoff.jpg",
+        description: "Caramelised perfection. A warming touch of cinnamon elevates the espresso-soaked Savoiardi and mascarpone cream, finished with a crunch of Biscoff cookies."
+    },
+    {
+        id: 4,
+        name: "Nutella & Hazelnut",
+        image: "nutella.jpg",
+        description: "Pure indulgence. Espresso-soaked Savoiardi met with smooth mascarpone and generous ribbons of rich Nutella, finished with crushed hazelnuts."
+    },
+    {
+        id: 5,
+        name: "Limone Fresco",
+        image: "limone.jpg",
+        description: "A bold, refreshing contrast. Zesty homemade lemon curd swirls through creamy mascarpone and espresso-kissed Savoiardi."
+    },
 ];
 
 const heroSlides = [
@@ -158,7 +183,7 @@ export default function Products() {
                 {/* Intro Text */}
                 <div className="product-intro mb-20 text-center md:text-left max-w-2xl">
                     <p className="font-sans text-xl md:text-2xl leading-relaxed opacity-90 text-dipiu-beige/90">
-                        Handcrafted locally in Brisbane. A tribute to authentic Italian tradition, elevated with modern flavors.
+                        Handcrafted locally in Brisbane. A tribute to authentic Italian tradition, elevated with modern flavours.
                     </p>
                     <div className="w-24 h-[1px] bg-dipiu-red mt-8 mx-auto md:mx-0" />
                 </div>
@@ -187,11 +212,19 @@ export default function Products() {
                             </div>
 
                             {/* Info */}
-                            <div className="flex justify-between items-baseline border-b border-dipiu-beige/20 pb-4">
-                                <h3 className="text-xl md:text-2xl font-sans tracking-wide">{product.name}</h3>
-                                <div className="overflow-hidden">
-                                    <span className="text-xs md:text-sm opacity-60 font-sans tracking-[0.2em] block transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">SCOPRI</span>
+                            <div className="flex flex-col border-b border-dipiu-beige/20 pb-4">
+                                <div className="flex justify-between items-baseline mb-2">
+                                    <h3 className="text-xl md:text-2xl font-sans tracking-wide">{product.name}</h3>
+                                    {/* Arrow icon instead of text */}
+                                    <span className="opacity-60 transform group-hover:translate-x-1 transition-transform duration-300">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
+                                        </svg>
+                                    </span>
                                 </div>
+                                <p className="text-sm opacity-70 font-sans font-light leading-relaxed max-w-[90%] group-hover:opacity-100 transition-opacity duration-300">
+                                    {product.description}
+                                </p>
                             </div>
                         </div>
                     ))}
