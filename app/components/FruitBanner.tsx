@@ -41,7 +41,7 @@ export default function FruitBanner() {
                 <span className="block text-sm md:text-base font-sans font-bold tracking-[0.2em] uppercase mb-4 opacity-80">
                     Something refreshing?
                 </span>
-                <h2 className="text-4xl md:text-7xl font-serif font-bold tracking-tight leading-none">
+                <h2 className="text-4xl md:text-7xl font-luckiest font-bold tracking-tight leading-none">
                     We also have<br />
                     <span className="italic">100% natural</span><br />
                     ice creams!

@@ -14,7 +14,8 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-sweet-sans), var(--font-geist-sans);
+  --font-sans: var(--font-geist-sans);
+  --font-luckiest: var(--font-luckiest-guy), "Luckiest Guy", cursive;
   --font-mono: var(--font-geist-mono);
 
   /* Font Extensions */
@@ -25,6 +26,8 @@
   --color-dipiu-beige: var(--dipiu-beige);
   --color-dipiu-black: var(--dipiu-black);
   --color-dipiu-coffee: var(--dipiu-coffee);
+
+  --font-geist: var(--font-geist-sans);
 }
 
 @media (prefers-color-scheme: dark) {

@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Luckiest_Guy } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import SmoothScroll from "./components/SmoothScroll";
@@ -15,6 +15,13 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+const luckiestGuy = Luckiest_Guy({
+  weight: "400",
+  variable: "--font-luckiest-guy",
+  subsets: ["latin"],
+  display: "swap",
 });
 
 const sweetSans = localFont({
@@ -36,7 +43,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${sweetSans.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${sweetSans.variable} ${luckiestGuy.variable} antialiased`}
       >
         <WholesaleProvider>
           <SmoothScroll />

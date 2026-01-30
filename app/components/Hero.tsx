@@ -98,7 +98,7 @@ export default function Hero() {
                         <div className={`flex flex-col ${slide.position.includes("text-center") ? "items-center" : slide.position.includes("text-right") ? "items-end" : "items-start"} transition-all duration-[2000ms] transform ${index === currentIndex ? "translate-y-0 opacity-100" : "translate-y-10 opacity-0"
                             }`}>
                             <h1
-                                className="font-sans text-[10vw] md:text-6xl lg:text-7xl leading-[0.9] tracking-tighter drop-shadow-lg"
+                                className="font-luckiest text-[10vw] md:text-6xl lg:text-7xl leading-[0.9] tracking-tighter drop-shadow-lg"
                             >
                                 {slide.title}
                             </h1>
@@ -110,7 +110,8 @@ export default function Hero() {
                         </div>
                     </div>
                 </div>
-            ))}
-        </section>
+            ))
+            }
+        </section >
     );
 }

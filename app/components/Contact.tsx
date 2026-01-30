@@ -26,7 +26,7 @@ export default function Contact() {
                     Get in Touch
                 </span>
 
-                <h2 className="text-4xl md:text-6xl font-bold tracking-tighter mb-12 leading-none">
+                <h2 className="text-4xl md:text-6xl font-luckiest tracking-tighter mb-12 leading-none">
                     Have a sweet<br />enquiry?
                 </h2>
 

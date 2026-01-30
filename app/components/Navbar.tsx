@@ -100,7 +100,7 @@ export default function Navbar() {
                 </div>
 
                 {/* Menú de Escritorio */}
-                <div className="hidden md:flex items-center gap-10 font-sans text-sm uppercase tracking-widest font-medium pointer-events-auto">
+                <div className="hidden md:flex items-center gap-10 font-luckiest text-sm uppercase tracking-widest font-medium pointer-events-auto">
                     <a href="#products" onClick={(e) => handleScrollTo(e, "#products")} className="hover:underline underline-offset-4 decoration-1 cursor-pointer">
                         Our Products
                     </a>
@@ -132,7 +132,7 @@ export default function Navbar() {
                 className="fixed inset-0 z-[60] bg-dipiu-black text-dipiu-beige flex flex-col translate-x-full md:hidden"
             >
                 <div className="flex justify-between items-center px-6 py-6 border-b border-dipiu-beige/10">
-                    <span className="font-sans text-xl">Menu</span>
+                    <span className="font-luckiest text-xl">Menu</span>
                     <button
                         onClick={closeMenu}
                         className="flex items-center gap-2 text-sm uppercase tracking-widest hover:text-dipiu-red transition-colors cursor-pointer"
@@ -153,23 +153,23 @@ export default function Navbar() {
                 </div>
 
                 <div ref={menuContentRef} className="flex-1 flex flex-col justify-center items-center gap-10 p-6">
-                    <a href="#products" onClick={(e) => handleScrollTo(e, "#products")} className="menu-item font-sans text-5xl hover:text-dipiu-red transition-colors cursor-pointer">
+                    <a href="#products" onClick={(e) => handleScrollTo(e, "#products")} className="menu-item font-luckiest text-5xl hover:text-dipiu-red transition-colors cursor-pointer">
                         Products
                     </a>
                     <Link href="/" onClick={(e) => {
                         e.preventDefault();
                         closeMenu();
                         gsap.to(window, { duration: 1.5, scrollTo: 0, ease: "power3.inOut" });
-                    }} className="menu-item font-sans text-5xl hover:text-dipiu-red transition-colors cursor-pointer">
+                    }} className="menu-item font-luckiest text-5xl hover:text-dipiu-red transition-colors cursor-pointer">
                         Story
                     </Link>
-                    <a href="#contact" onClick={(e) => handleScrollTo(e, "#contact")} className="menu-item font-sans text-5xl hover:text-dipiu-red transition-colors cursor-pointer">
+                    <a href="#contact" onClick={(e) => handleScrollTo(e, "#contact")} className="menu-item font-luckiest text-5xl hover:text-dipiu-red transition-colors cursor-pointer">
                         Contact
                     </a>
                     <div className="menu-item w-12 h-[1px] bg-dipiu-beige/20 my-4" />
                     <button
                         onClick={() => { closeMenu(); openWholesale(); }}
-                        className="menu-item font-sans text-sm uppercase tracking-widest border border-dipiu-beige px-10 py-4 rounded-full hover:bg-dipiu-beige hover:text-dipiu-black transition-colors cursor-pointer"
+                        className="menu-item font-luckiest text-sm uppercase tracking-widest border border-dipiu-beige px-10 py-4 rounded-full hover:bg-dipiu-beige hover:text-dipiu-black transition-colors cursor-pointer"
                     >
                         Wholesale
                     </button>

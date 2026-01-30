@@ -150,7 +150,7 @@ export default function Products() {
                     <span className="hero-subtitle font-sans text-[10px] md:text-sm uppercase tracking-[0.3em] mb-2 md:mb-4 text-dipiu-beige/80">
                         Local Fresh • With Love
                     </span>
-                    <h2 className="hero-title font-sans text-2xl md:text-6xl text-dipiu-beige tracking-tighter drop-shadow-2xl mb-8">
+                    <h2 className="hero-title font-luckiest text-2xl md:text-6xl text-dipiu-beige tracking-tighter drop-shadow-2xl mb-8">
                         Made from Scratch.
                     </h2>
 
@@ -214,7 +214,7 @@ export default function Products() {
                             {/* Info */}
                             <div className="flex flex-col border-b border-dipiu-beige/20 pb-4">
                                 <div className="flex justify-between items-baseline mb-2">
-                                    <h3 className="text-xl md:text-2xl font-sans tracking-wide">{product.name}</h3>
+                                    <h3 className="text-xl md:text-2xl font-luckiest tracking-wide">{product.name}</h3>
                                     {/* Arrow icon instead of text */}
                                     <span className="opacity-60 transform group-hover:translate-x-1 transition-transform duration-300">
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-5 h-5">

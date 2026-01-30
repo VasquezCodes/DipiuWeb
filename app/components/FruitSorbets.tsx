@@ -99,7 +99,7 @@ export default function FruitSorbets() {
                         <span className="block text-sm md:text-base font-sans font-bold tracking-[0.3em] uppercase mb-6 text-dipiu-red">
                             The Fruit Collection
                         </span>
-                        <h2 className="text-5xl md:text-8xl font-serif font-medium mb-8 leading-tight text-dipiu-coffee">
+                        <h2 className="text-5xl md:text-8xl font-luckiest font-medium mb-8 leading-tight text-dipiu-coffee">
                             Pure Fruit.<br />
                             Pure Joy.
                         </h2>
@@ -142,7 +142,7 @@ export default function FruitSorbets() {
                                 0{index + 1}
                             </span>
 
-                            <h3 className="text-3xl md:text-5xl font-serif font-medium mb-6 text-dipiu-coffee">
+                            <h3 className="text-3xl md:text-5xl font-luckiest font-medium mb-6 text-dipiu-coffee">
                                 {sorbet.name}
                             </h3>
                             <div className="w-16 h-1 bg-dipiu-red mb-8"></div>
@@ -158,7 +158,7 @@ export default function FruitSorbets() {
                     <span className="block text-sm md:text-base font-sans font-bold tracking-[0.3em] uppercase mb-6 text-dipiu-red">
                         Expanded Menu
                     </span>
-                    <h2 className="text-5xl md:text-8xl font-serif font-medium mb-16 leading-tight">
+                    <h2 className="text-5xl md:text-8xl font-luckiest font-medium mb-16 leading-tight">
                         Coming Soon
                     </h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-8 text-2xl md:text-4xl font-serif">
