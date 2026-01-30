@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Luckiest_Guy } from "next/font/google";
+import { Geist, Geist_Mono, Fredoka } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import SmoothScroll from "./components/SmoothScroll";
@@ -17,9 +17,8 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const luckiestGuy = Luckiest_Guy({
-  weight: "400",
-  variable: "--font-luckiest-guy",
+const fredoka = Fredoka({
+  variable: "--font-fredoka",
   subsets: ["latin"],
   display: "swap",
 });
@@ -43,7 +42,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${sweetSans.variable} ${luckiestGuy.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${sweetSans.variable} ${fredoka.variable} antialiased`}
       >
         <WholesaleProvider>
           <SmoothScroll />
