@@ -13,33 +13,33 @@ gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 const products = [
     {
         id: 1,
-        name: "Il Classico",
+        name: "Classico",
         image: "classic.jpg",
-        description: "The timeless Italian icon. Authentic Savoiardi fingers soaked in rich espresso, layered with velvety mascarpone cream and dusted with premium cocoa powder."
+        description: "Authentic Savoiardi fingers soaked in espresso, layered with mascarpone cream and dusted with premium cocoa powder."
     },
     {
         id: 2,
         name: "Pistacchio Siciliano",
         image: "pistacchio.jpg",
-        description: "A luxurious Sicilian twist. Espresso-infused Savoiardi and creamy mascarpone blended with pure pistachio paste, finished with a crunch of crushed pistachios."
+        description: "Espresso-infused Savoiardi and mascarpone blended with pure pistachio paste, finished with crushed pistachios."
     },
     {
         id: 3,
         name: "Biscoff Crunch",
         image: "biscoff.jpg",
-        description: "Caramelised perfection. A warming touch of cinnamon elevates the espresso-soaked Savoiardi and mascarpone cream, finished with a crunch of Biscoff cookies."
+        description: "Espresso-soaked Savoiardi and mascarpone cream with a touch of cinnamon, finished with Biscoff cookies."
     },
     {
         id: 4,
-        name: "Nutella & Hazelnut",
+        name: "Nutella",
         image: "nutella.jpg",
-        description: "Pure indulgence. Espresso-soaked Savoiardi met with smooth mascarpone and generous ribbons of rich Nutella, finished with crushed hazelnuts."
+        description: "Espresso-soaked Savoiardi with mascarpone and ribbons of Nutella."
     },
     {
         id: 5,
         name: "Limone Fresco",
         image: "limone.jpg",
-        description: "A bold, refreshing contrast. Zesty homemade lemon curd swirls through creamy mascarpone and espresso-kissed Savoiardi."
+        description: "Homemade lemon curd swirls through mascarpone and espresso-soaked Savoiardi."
     },
 ];
 
