@@ -29,30 +29,43 @@ export default function Home() {
     // 1. Hero Pin Logic
     // Using CSS Sticky for positioning, GSAP for animation
 
-    // Escala y oscurecimiento progresivo del Hero al hacer scroll
-    gsap.to(hero, {
-      scale: 0.95,
-      opacity: 0.6,
-      ease: "none",
-      scrollTrigger: {
-        trigger: mainRef.current, // Use main container as trigger to allow full scrub range? Or just standard scroll
-        start: "top top",
-        end: "bottom top", // Or roughly 100vh
-        scrub: true
-      }
+    const mm = gsap.matchMedia();
+
+    // Setup animations based on screen size
+    mm.add({
+      // Desktop: Scale + Opacity
+      isDesktop: "(min-width: 769px)",
+      // Mobile: Opacity only (Scaling causes jitter on mobile)
+      isMobile: "(max-width: 768px)",
+    }, (context) => {
+      const { isDesktop } = context.conditions as { isDesktop: boolean; isMobile: boolean };
+
+      gsap.to(hero, {
+        scale: isDesktop ? 0.95 : 1, // Only scale on desktop
+        opacity: 0.6,
+        rotation: 0.01,
+        force3D: true,
+        ease: "none",
+        scrollTrigger: {
+          trigger: mainRef.current,
+          start: "top top",
+          end: "+=100%",
+          scrub: true
+        }
+      });
     });
 
     // Oscurecer Products mientras Contact sube
-    if (products && contactRef.current) { // Ensure products and contactRef.current are not null
+    if (products && contactRef.current) {
       gsap.fromTo(products,
         { filter: "brightness(1)" },
         {
           filter: "brightness(0.2)",
           ease: "none",
           scrollTrigger: {
-            trigger: contactRef.current, // El trigger es Contact subiendo
-            start: "top bottom", // Cuando Contact empieza a entrar
-            end: "top top", // Cuando Contact ya cubrió todo (o llégo arriba)
+            trigger: contactRef.current,
+            start: "top bottom",
+            end: "top top",
             scrub: true
           }
         }
@@ -80,8 +93,18 @@ export default function Home() {
     <main ref={mainRef} className="relative w-full bg-dipiu-black">
 
       {/* LAYER 0: Hero (Sticky) */}
-      <div ref={heroRef} className="sticky top-0 w-full h-[100svh] z-0 will-change-transform">
-        <Hero />
+      {/* 
+        Fix: Separate sticky container from animated container to prevent mobile jitter.
+        The outer div handles position: sticky.
+        The inner div handles scale/opacity transforms.
+      */}
+      <div className="sticky top-0 w-full h-[100svh] z-0 overflow-hidden">
+        <div
+          ref={heroRef}
+          className="w-full h-full will-change-transform"
+        >
+          <Hero />
+        </div>
       </div>
 
       {/* LAYER 1: Products */}

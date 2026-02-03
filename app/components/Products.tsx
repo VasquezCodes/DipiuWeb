@@ -148,10 +148,10 @@ export default function Products() {
                 {/* Superposición de Contenido Hero */}
                 <div className="absolute inset-0 flex flex-col justify-end items-start md:justify-center md:items-center z-20 text-left md:text-center p-6 md:p-0">
                     <span className="hero-subtitle font-sans text-[10px] md:text-sm uppercase tracking-[0.3em] mb-2 md:mb-4 text-dipiu-beige/80">
-                        Local Fresh • With Love
+                        Locally Made • With Love
                     </span>
                     <h2 className="hero-title font-luckiest text-2xl md:text-6xl text-dipiu-beige tracking-tighter drop-shadow-2xl mb-8">
-                        Made from Scratch.
+                        Made from Scratch
                     </h2>
 
                     {/* CTA Button */}

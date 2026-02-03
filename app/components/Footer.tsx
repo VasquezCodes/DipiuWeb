@@ -58,7 +58,7 @@ export default function Footer() {
             {/* Franja Inferior */}
             <div className="w-full bg-black/10 py-4 text-center">
                 <p className="text-[10px] md:text-xs uppercase tracking-widest opacity-60">
-                    &copy; {new Date().getFullYear()} DiPiù. Handcrafted in Brisbane.
+                    &copy; {new Date().getFullYear()} DiPiù. Handcrafted in Brisbane
                 </p>
             </div>
         </footer>

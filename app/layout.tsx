@@ -6,6 +6,7 @@ import SmoothScroll from "./components/SmoothScroll";
 import Navbar from "./components/Navbar";
 import { WholesaleProvider } from "./context/WholesaleContext";
 import WholesaleOverlay from "./components/WholesaleOverlay";
+import { AuthProvider } from "./context/AuthContext";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -44,12 +45,14 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${sweetSans.variable} ${fredoka.variable} antialiased`}
       >
-        <WholesaleProvider>
-          <SmoothScroll />
-          <Navbar />
-          <WholesaleOverlay />
-          {children}
-        </WholesaleProvider>
+        <AuthProvider>
+          <WholesaleProvider>
+            <SmoothScroll />
+            <Navbar />
+            <WholesaleOverlay />
+            {children}
+          </WholesaleProvider>
+        </AuthProvider>
       </body>
     </html>
   );

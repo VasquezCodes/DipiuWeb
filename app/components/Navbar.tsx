@@ -8,10 +8,12 @@ import ScrollTrigger from "gsap/ScrollTrigger";
 import ScrollToPlugin from "gsap/ScrollToPlugin";
 import Link from "next/link";
 import { useWholesale } from "../context/WholesaleContext";
+import { usePathname } from "next/navigation";
 
 gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 export default function Navbar() {
+    const pathname = usePathname();
     const { openWholesale } = useWholesale();
     const navRef = useRef(null);
     const containerRef = useRef(null);
@@ -20,6 +22,11 @@ export default function Navbar() {
 
     // Estado del Menú Móvil
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+    // Hide navbar on admin routes
+    if (pathname?.startsWith("/admin")) {
+        return null;
+    }
 
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
     const closeMenu = () => setIsMenuOpen(false);

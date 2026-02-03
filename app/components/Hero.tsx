@@ -2,41 +2,42 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import MarketsTickerBanner from "./MarketsTickerBanner";
 
 const slides = [
     {
-        img: "cardStack1.jpg",
-        title: <>Hand<br />crafted<br />Tiramisù.</>,
+        img: "heroPrincipal1.jpg",
+        title: <>Hand<br />crafted<br />Tiramisù</>,
         subtitle: "Brisbane City • Queensland",
         position: "justify-center items-center text-center"
     },
     {
-        img: "cardStack2.jpg",
-        title: <>Authentic<br />Italian<br />Recipe.</>,
+        img: "heroPrincipal2.jpg",
+        title: <>Authentic<br />Italian<br />Recipe</>,
         subtitle: "A Taste of Heritage in Every Bite",
-        position: "justify-end items-start text-left pb-32 pl-6 md:pl-20"
+        position: "justify-end items-start text-left pb-48 md:pb-40 pl-6 md:pl-20"
     },
     {
-        img: "cardStack3v3.jpg",
-        title: <>Premium<br />Local<br />Ingredients.</>,
+        img: "heroPrincipal3.jpg",
+        title: <>Premium<br />Local<br />Ingredients</>,
         subtitle: "Mascarpone, Savoiardi & Espresso",
         position: "justify-start items-end text-right pt-40 pr-6 md:pr-20"
     },
     {
-        img: "cardStack4.jpg",
-        title: <>Made<br />With<br />Passion.</>,
+        img: "heroPrincipal4.jpg",
+        title: <>Made<br />With<br />Passion</>,
         subtitle: "Small Batch • Big Flavour",
         position: "justify-center items-start text-left pl-6 md:pl-20"
     },
     {
-        img: "cardStack5.jpg",
-        title: <>Sweet<br />Moments<br />Shared.</>,
+        img: "heroPrincipal5.jpg",
+        title: <>Sweet<br />Moments<br />Shared</>,
         subtitle: "Perfect for Any Occasion",
-        position: "justify-end items-end text-right pb-32 pr-6 md:pr-20"
+        position: "justify-end items-start text-right pb-48 md:pb-40 pr-6 md:pr-20"
     },
     {
-        img: "cardStack6.jpg",
-        title: <>Freshly<br />Prepared<br />Daily.</>,
+        img: "heroPrincipal6.jpg",
+        title: <>Freshly<br />Prepared<br />Daily</>,
         subtitle: "Order Yours Today",
         position: "justify-center items-center text-center"
     }
@@ -81,7 +82,7 @@ export default function Hero() {
                     {/* Imagen de Fondo */}
                     <div className="absolute inset-0 w-full h-full">
                         <Image
-                            src={`/DipiuFotos/${slide.img}`}
+                            src={`/nuevoHero/${slide.img}`}
                             alt={`Hero Background ${index + 1}`}
                             fill
                             className="object-cover"
@@ -112,6 +113,9 @@ export default function Hero() {
                 </div>
             ))
             }
+
+            {/* Markets Ticker Banner */}
+            <MarketsTickerBanner />
         </section >
     );
 }

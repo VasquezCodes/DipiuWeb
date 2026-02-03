@@ -100,11 +100,11 @@ export default function FruitSorbets() {
                             The Fruit Collection
                         </span>
                         <h2 className="text-5xl md:text-8xl font-luckiest font-medium mb-8 leading-tight text-dipiu-coffee">
-                            Pure Fruit.<br />
-                            Pure Joy.
+                            Pure Fruit<br />
+                            Pure Joy
                         </h2>
                         <p className="text-xl md:text-2xl opacity-70 font-sans leading-relaxed max-w-2xl mx-auto">
-                            Our sorbets are crafted with 100% natural fruit. No dairy, no artificial flavours—just the honest, vibrant taste of nature's best.
+                            Our popsicles are crafted with 100% natural fruit. No dairy, no artificial flavours—just the honest, vibrant taste of nature's best.
                         </p>
                         <div className="mt-12 animate-bounce opacity-50">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8 md:w-10 md:h-10 mx-auto rotate-[-90deg]">
