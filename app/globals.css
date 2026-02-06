@@ -15,11 +15,11 @@
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
-  --font-luckiest: var(--font-fredoka), "Fredoka", sans-serif;
+  --font-luckiest: var(--font-header), sans-serif;
   --font-mono: var(--font-geist-mono);
 
   /* Font Extensions */
-  --font-serif: var(--font-sweet-sans);
+  --font-serif: var(--font-header);
 
   /* Color Extensions */
   --color-dipiu-red: var(--dipiu-red);

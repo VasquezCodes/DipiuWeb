@@ -30,6 +30,12 @@ const sweetSans = localFont({
   display: "swap",
 });
 
+const headerFont = localFont({
+  src: "../public/file.woff2",
+  variable: "--font-header",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "DiPiù® | Handcrafted Tiramisu",
   description: "Authentic Handcrafted Tiramisu made with love in Brisbane City, Queensland.",
@@ -43,7 +49,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${sweetSans.variable} ${fredoka.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${sweetSans.variable} ${fredoka.variable} ${headerFont.variable} antialiased`}
       >
         <AuthProvider>
           <WholesaleProvider>
