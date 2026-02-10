@@ -108,6 +108,9 @@ export default function Navbar() {
 
                 {/* Menú de Escritorio */}
                 <div className="hidden md:flex items-center gap-10 font-luckiest text-sm uppercase tracking-widest font-medium pointer-events-auto">
+                    <a href="/" onClick={(e) => { e.preventDefault(); closeMenu(); gsap.to(window, { duration: 1.5, scrollTo: 0, ease: "power3.inOut" }); }} className="hover:underline underline-offset-4 decoration-1 cursor-pointer">
+                        Home
+                    </a>
                     <a href="#products" onClick={(e) => handleScrollTo(e, "#products")} className="hover:underline underline-offset-4 decoration-1 cursor-pointer">
                         Our Products
                     </a>
@@ -160,6 +163,9 @@ export default function Navbar() {
                 </div>
 
                 <div ref={menuContentRef} className="flex-1 flex flex-col justify-center items-center gap-10 p-6">
+                    <a href="/" onClick={(e) => { e.preventDefault(); closeMenu(); gsap.to(window, { duration: 1.5, scrollTo: 0, ease: "power3.inOut" }); }} className="menu-item font-luckiest text-5xl hover:text-dipiu-red transition-colors cursor-pointer">
+                        Home
+                    </a>
                     <a href="#products" onClick={(e) => handleScrollTo(e, "#products")} className="menu-item font-luckiest text-5xl hover:text-dipiu-red transition-colors cursor-pointer">
                         Products
                     </a>

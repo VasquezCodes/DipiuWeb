@@ -2,7 +2,11 @@
 
 import Image from "next/image";
 import Link from "next/link";
+import gsap from "gsap";
+import ScrollToPlugin from "gsap/ScrollToPlugin";
 import { useWholesale } from "../context/WholesaleContext";
+
+gsap.registerPlugin(ScrollToPlugin);
 
 export default function Footer() {
     const { openWholesale } = useWholesale();
@@ -65,8 +69,8 @@ export default function Footer() {
                 {/* 3. Derecha: Enlaces */}
                 <div className="flex-1 flex justify-center md:justify-end">
                     <div className="flex flex-col items-center md:items-end gap-2 font-medium text-xs md:text-sm uppercase tracking-widest text-dipiu-beige/90">
+                        <button onClick={() => gsap.to(window, { duration: 1.5, scrollTo: 0, ease: "power3.inOut" })} className="hover:text-white transition-colors cursor-pointer uppercase">Home</button>
                         <Link href="/" className="hover:text-white transition-colors">Privacy Policy</Link>
-
                         <Link href="#contact" className="hover:text-white transition-colors">Contact Us</Link>
                         <button onClick={openWholesale} className="hover:text-white transition-colors cursor-pointer uppercase">Wholesale</button>
                     </div>
