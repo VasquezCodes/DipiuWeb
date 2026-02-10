@@ -12,7 +12,7 @@ export default function Contact() {
     };
 
     return (
-        <section className="w-full bg-dipiu-beige text-dipiu-red py-24 md:py-32 flex flex-col items-center justify-center text-center overflow-hidden relative">
+        <section id="contact" aria-label="Contact DiPiù Tiramisu" className="w-full bg-dipiu-beige text-dipiu-red py-24 md:py-32 flex flex-col items-center justify-center text-center overflow-hidden relative">
 
             {/* Feedback Toast */}
             <div className={`fixed top-10 left-1/2 transform -translate-x-1/2 bg-dipiu-red text-dipiu-beige px-6 py-2 rounded-full text-sm font-bold tracking-widest transition-all duration-300 z-50 ${copied ? "opacity-100 translate-y-0" : "opacity-0 -translate-y-4 pointer-events-none"}`}>

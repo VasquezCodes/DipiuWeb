@@ -133,7 +133,7 @@ export default function Products() {
                             }`}>
                             <Image
                                 src={`/DipiuFotos/${slide}`}
-                                alt="Made from Scratch"
+                                alt="DiPiù tiramisu — handcrafted Italian dessert made from scratch in Brisbane"
                                 fill
                                 quality={100}
                                 unoptimized

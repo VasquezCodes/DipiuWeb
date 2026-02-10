@@ -9,37 +9,43 @@ const slides = [
         img: "heroPrincipal1.jpg",
         title: <>Hand<br />crafted<br />Tiramisù</>,
         subtitle: "Brisbane City • Queensland",
-        position: "justify-center items-center text-center"
+        position: "justify-center items-center text-center",
+        alt: "DiPiù handcrafted tiramisu — authentic Italian dessert made in Brisbane"
     },
     {
         img: "heroPrincipal2.jpg",
         title: <>Authentic<br />Italian<br />Recipe</>,
         subtitle: "A Taste of Heritage in Every Bite",
-        position: "justify-end items-start text-left pb-48 md:pb-40 pl-6 md:pl-20"
+        position: "justify-end items-start text-left pb-48 md:pb-40 pl-6 md:pl-20",
+        alt: "Authentic Italian tiramisu recipe — traditional mascarpone and espresso layers"
     },
     {
         img: "heroPrincipal3.jpg",
         title: <>Premium<br />Local<br />Ingredients</>,
         subtitle: "Mascarpone, Savoiardi & Espresso",
-        position: "justify-start items-end text-right pt-40 pr-6 md:pr-20"
+        position: "justify-start items-end text-right pt-40 pr-6 md:pr-20",
+        alt: "Premium mascarpone, savoiardi fingers, and espresso for DiPiù tiramisu"
     },
     {
         img: "heroPrincipal4.jpg",
         title: <>Made<br />With<br />Passion</>,
         subtitle: "Small Batch • Big Flavour",
-        position: "justify-center items-start text-left pl-6 md:pl-20"
+        position: "justify-center items-start text-left pl-6 md:pl-20",
+        alt: "Small batch handmade tiramisu preparation in Brisbane"
     },
     {
         img: "heroPrincipal5.jpg",
         title: <>Sweet<br />Moments<br />Shared</>,
         subtitle: "Perfect for Any Occasion",
-        position: "justify-end items-start text-right pb-48 md:pb-40 pr-6 md:pr-20"
+        position: "justify-end items-start text-right pb-48 md:pb-40 pr-6 md:pr-20",
+        alt: "DiPiù tiramisu — perfect dessert for events and occasions in Brisbane"
     },
     {
         img: "heroPrincipal6.jpg",
         title: <>Freshly<br />Prepared<br />Daily</>,
         subtitle: "Order Yours Today",
-        position: "justify-center items-center text-center"
+        position: "justify-center items-center text-center",
+        alt: "Freshly prepared tiramisu — order handcrafted tiramisu in Brisbane today"
     }
 ];
 
@@ -83,7 +89,7 @@ export default function Hero() {
                     <div className="absolute inset-0 w-full h-full">
                         <Image
                             src={`/nuevoHero/${slide.img}`}
-                            alt={`Hero Background ${index + 1}`}
+                            alt={slide.alt}
                             fill
                             className="object-cover"
                             priority={index === 0}
