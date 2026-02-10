@@ -32,8 +32,14 @@ export default function WholesaleOverlay() {
     const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
     const tlRef = useRef<gsap.core.Timeline | null>(null);
+    const statusRef = useRef(status);
 
-    // Initial GSAP Setup
+    // Keep ref in sync with state
+    useEffect(() => {
+        statusRef.current = status;
+    }, [status]);
+
+    // Initial GSAP Setup — NO status dependency!
     useGSAP(() => {
         const tl = gsap.timeline({
             paused: true,
@@ -44,8 +50,8 @@ export default function WholesaleOverlay() {
             onReverseComplete: () => {
                 if (overlayRef.current) overlayRef.current.style.zIndex = "-1";
                 document.body.style.overflow = "";
-                // Reset form on close if successful
-                if (status === 'success') {
+                // Reset form on close if successful — read from ref, not stale closure
+                if (statusRef.current === 'success' || statusRef.current === 'error') {
                     setStatus('idle');
                     setFormData({ businessName: "", contactPerson: "", email: "", volume: "10 - 50 Units", message: "" });
                     setInterests([]);
@@ -62,7 +68,7 @@ export default function WholesaleOverlay() {
             );
 
         tlRef.current = tl;
-    }, { scope: overlayRef, dependencies: [status] });
+    }, { scope: overlayRef });
 
     useEffect(() => {
         if (!tlRef.current) return;
@@ -88,12 +94,14 @@ export default function WholesaleOverlay() {
                 setStatus('success');
                 setTimeout(() => {
                     closeWholesale();
-                }, 2000);
+                }, 3500);
             } else {
+                const data = await res.json().catch(() => ({}));
+                console.error('Email API error:', data);
                 setStatus('error');
             }
         } catch (error) {
-            console.error(error);
+            console.error('Network error sending email:', error);
             setStatus('error');
         }
     };
@@ -122,14 +130,47 @@ export default function WholesaleOverlay() {
                 <div className="flex-1 overflow-y-auto p-8 relative">
                     {/* Success Message Overlay */}
                     {status === 'success' && (
-                        <div className="absolute inset-0 bg-dipiu-beige z-20 flex flex-col items-center justify-center text-center p-8 animate-in fade-in duration-300">
-                            <div className="w-16 h-16 bg-green-100 text-green-600 rounded-full flex items-center justify-center mb-4">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 h-8">
+                        <div
+                            className="absolute inset-0 bg-dipiu-beige z-20 flex flex-col items-center justify-center text-center p-8"
+                            style={{ animation: 'fadeIn 0.4s ease-out forwards' }}
+                        >
+                            <div className="w-20 h-20 bg-green-100 text-green-600 rounded-full flex items-center justify-center mb-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-10 h-10">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
                                 </svg>
                             </div>
-                            <h3 className="font-serif text-2xl font-bold mb-2">Grazie!</h3>
-                            <p className="font-sans text-sm opacity-70">We received your enquiry and will be in touch shortly.</p>
+                            <h3 className="font-serif text-3xl font-bold mb-3 text-dipiu-black">Grazie!</h3>
+                            <p className="font-sans text-base text-dipiu-black/70 max-w-xs">We received your enquiry and will be in touch shortly.</p>
+                        </div>
+                    )}
+
+                    {/* Error Message Overlay */}
+                    {status === 'error' && (
+                        <div
+                            className="absolute inset-0 bg-dipiu-beige z-20 flex flex-col items-center justify-center text-center p-8"
+                            style={{ animation: 'fadeIn 0.4s ease-out forwards' }}
+                        >
+                            <div className="w-20 h-20 bg-red-100 text-dipiu-red rounded-full flex items-center justify-center mb-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="w-10 h-10">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+                                </svg>
+                            </div>
+                            <h3 className="font-serif text-2xl font-bold mb-3 text-dipiu-black">Oops!</h3>
+                            <p className="font-sans text-base text-dipiu-black/70 max-w-xs mb-6">Something went wrong. Please try again or email us directly.</p>
+                            <div className="flex gap-3">
+                                <button
+                                    onClick={() => setStatus('idle')}
+                                    className="px-6 py-3 bg-dipiu-red text-dipiu-beige font-sans text-xs uppercase tracking-widest hover:bg-dipiu-black transition-colors duration-300"
+                                >
+                                    Try Again
+                                </button>
+                                <a
+                                    href="mailto:dipiutiramisu@gmail.com"
+                                    className="px-6 py-3 border border-dipiu-black/20 text-dipiu-black font-sans text-xs uppercase tracking-widest hover:bg-dipiu-black/5 transition-colors duration-300"
+                                >
+                                    Email Us
+                                </a>
+                            </div>
                         </div>
                     )}
 
@@ -241,9 +282,7 @@ export default function WholesaleOverlay() {
                                 </>
                             ) : "Send Enquiry"}
                         </button>
-                        {status === 'error' && (
-                            <p className="text-red-600 text-xs text-center font-bold">Something went wrong. Please try again or email us directly.</p>
-                        )}
+
                     </form>
                 </div>
             </div>

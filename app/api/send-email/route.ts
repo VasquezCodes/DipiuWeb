@@ -5,7 +5,8 @@ import nodemailer from 'nodemailer';
 export async function POST(request: Request) {
     try {
         const body = await request.json();
-        const { businessName, contactPerson, email, interests, volume, message } = body;
+        const { businessName, contactPerson, email, volume, message } = body;
+        const interests = Array.isArray(body.interests) ? body.interests : [];
 
         // Validaciones básicas
         if (!email || !contactPerson) {
