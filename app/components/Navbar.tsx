@@ -163,13 +163,7 @@ export default function Navbar() {
                     <a href="#products" onClick={(e) => handleScrollTo(e, "#products")} className="menu-item font-luckiest text-5xl hover:text-dipiu-red transition-colors cursor-pointer">
                         Products
                     </a>
-                    <Link href="/" onClick={(e) => {
-                        e.preventDefault();
-                        closeMenu();
-                        gsap.to(window, { duration: 1.5, scrollTo: 0, ease: "power3.inOut" });
-                    }} className="menu-item font-luckiest text-5xl hover:text-dipiu-red transition-colors cursor-pointer">
-                        Story
-                    </Link>
+
                     <a href="#contact" onClick={(e) => handleScrollTo(e, "#contact")} className="menu-item font-luckiest text-5xl hover:text-dipiu-red transition-colors cursor-pointer">
                         Contact
                     </a>
