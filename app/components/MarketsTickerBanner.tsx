@@ -68,7 +68,7 @@ export default function MarketsTickerBanner() {
             if (desktopRef.current) {
                 gsap.killTweensOf(desktopRef.current);
                 gsap.fromTo(desktopRef.current,
-                    { width: "300px", height: "172px" }, // Start from collapsed size approximation
+                    { width: "300px", height: "172px" },
                     {
                         width: "360px",
                         height: "auto",
@@ -77,9 +77,10 @@ export default function MarketsTickerBanner() {
                     }
                 );
 
-                // Animate inner content
-                gsap.killTweensOf(".market-item");
-                gsap.fromTo(".market-item",
+                // Animate inner content — scoped to desktopRef
+                const items = desktopRef.current.querySelectorAll(".market-item");
+                gsap.killTweensOf(items);
+                gsap.fromTo(items,
                     { x: -20, opacity: 0 },
                     {
                         x: 0,
@@ -97,7 +98,7 @@ export default function MarketsTickerBanner() {
                 const panel = mobileRef.current.querySelector(".expanded-panel");
                 if (panel) {
                     gsap.killTweensOf(panel);
-                    gsap.fromTo(mobileRef.current.querySelector(".expanded-panel"),
+                    gsap.fromTo(panel,
                         { scale: 0.9, opacity: 0, y: -10 },
                         {
                             scale: 1,
@@ -109,9 +110,10 @@ export default function MarketsTickerBanner() {
                     );
                 }
 
-                // Mobile list stagger
-                gsap.killTweensOf(".mobile-market-item");
-                gsap.fromTo(".mobile-market-item",
+                // Mobile list stagger — scoped to mobileRef
+                const mobileItems = mobileRef.current.querySelectorAll(".mobile-market-item");
+                gsap.killTweensOf(mobileItems);
+                gsap.fromTo(mobileItems,
                     { x: -10, opacity: 0 },
                     {
                         x: 0,
@@ -124,11 +126,15 @@ export default function MarketsTickerBanner() {
                 );
             }
         } else {
-            // COLLAPSED: Clear any GSAP inline styles so CSS takes over
+            // COLLAPSED: Kill active tweens and clear inline styles
             if (desktopRef.current) {
                 gsap.killTweensOf(desktopRef.current);
-                gsap.killTweensOf(".market-item");
-                gsap.set(desktopRef.current, { clearProps: "width,height" });
+                const items = desktopRef.current.querySelectorAll(".market-item");
+                gsap.killTweensOf(items);
+                // Clear all GSAP inline styles from the container
+                gsap.set(desktopRef.current, { clearProps: "all" });
+                // Restore the initial opacity (entrance animation set it to 1)
+                gsap.set(desktopRef.current, { opacity: 1 });
             }
             if (mobileRef.current) {
                 const panel = mobileRef.current.querySelector(".expanded-panel");
@@ -136,7 +142,8 @@ export default function MarketsTickerBanner() {
                     gsap.killTweensOf(panel);
                     gsap.set(panel, { clearProps: "all" });
                 }
-                gsap.killTweensOf(".mobile-market-item");
+                const mobileItems = mobileRef.current.querySelectorAll(".mobile-market-item");
+                gsap.killTweensOf(mobileItems);
             }
         }
     }, { dependencies: [isExpanded] });
@@ -306,13 +313,13 @@ export default function MarketsTickerBanner() {
                     {/* Content */}
                     <div className="p-3">
                         {isExpanded ? (
-                            <div className="space-y-2">
+                            <div key="expanded-list" className="space-y-2">
                                 {displayMarkets.map((market, index) => {
                                     const { dayName, dayNumber, month } = formatDate(market.date);
                                     const isFirst = index === 0;
                                     return (
                                         <div
-                                            key={market.id}
+                                            key={`expanded-${market.id}`}
                                             className={`
                                                 market-item flex items-center gap-3 p-3 rounded-xl transition-colors
                                                 ${isFirst ? "bg-dipiu-red/10 border border-dipiu-red/20" : "bg-dipiu-coffee/5 hover:bg-dipiu-coffee/10"}
@@ -356,12 +363,12 @@ export default function MarketsTickerBanner() {
                                 })}
                             </div>
                         ) : (
-                            <div className="relative h-[72px] overflow-hidden">
+                            <div key="collapsed-carousel" className="relative h-[72px] overflow-hidden">
                                 {displayMarkets.map((market, index) => {
                                     const { dayName, dayNumber, month } = formatDate(market.date);
                                     return (
                                         <div
-                                            key={market.id}
+                                            key={`carousel-${market.id}`}
                                             className={`
                                                 absolute inset-0 flex items-center gap-3 transition-all duration-500
                                                 ${index === currentIndex

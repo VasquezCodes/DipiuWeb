@@ -8,10 +8,9 @@ import Image from "next/image";
 export default function AdminLoginPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [isSignUp, setIsSignUp] = useState(false);
     const [error, setError] = useState("");
     const [loading, setLoading] = useState(false);
-    const { signIn, signUp } = useAuth();
+    const { signIn } = useAuth();
     const router = useRouter();
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -20,18 +19,11 @@ export default function AdminLoginPage() {
         setLoading(true);
 
         try {
-            if (isSignUp) {
-                await signUp(email, password);
-            } else {
-                await signIn(email, password);
-            }
+            await signIn(email, password);
             router.push("/admin/markets");
         } catch (err) {
             console.error(err);
-            setError(isSignUp
-                ? "Failed to create account. Please try again."
-                : "Invalid email or password."
-            );
+            setError("Invalid email or password.");
         } finally {
             setLoading(false);
         }
@@ -104,28 +96,15 @@ export default function AdminLoginPage() {
                             {loading ? (
                                 <>
                                     <div className="w-4 h-4 border-2 border-dipiu-beige border-t-transparent rounded-full animate-spin" />
-                                    {isSignUp ? "Creating Account..." : "Signing In..."}
+                                    Signing In...
                                 </>
                             ) : (
-                                isSignUp ? "Create Account" : "Sign In"
+                                "Sign In"
                             )}
                         </button>
                     </form>
 
-                    <div className="mt-6 text-center">
-                        <button
-                            onClick={() => {
-                                setIsSignUp(!isSignUp);
-                                setError("");
-                            }}
-                            className="text-sm text-dipiu-coffee/60 hover:text-dipiu-red transition-colors"
-                        >
-                            {isSignUp
-                                ? "Already have an account? Sign in"
-                                : "First time? Create an account"
-                            }
-                        </button>
-                    </div>
+
                 </div>
 
                 {/* Back to site */}
