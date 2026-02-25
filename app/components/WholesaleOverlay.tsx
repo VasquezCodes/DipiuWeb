@@ -232,8 +232,8 @@ export default function WholesaleOverlay() {
 
                                 <button
                                     type="button"
-                                    onClick={() => setInterests(prev => prev.includes('sorbet') ? prev.filter(i => i !== 'sorbet') : [...prev, 'sorbet'])}
-                                    className={`flex-1 py-6 px-4 border transition-all duration-300 flex flex-col items-center gap-1 group ${interests.includes('sorbet') ? 'bg-orange-50 border-orange-200 text-orange-900' : 'bg-white border-dipiu-black/10 hover:border-orange-200 text-dipiu-black/60'}`}
+                                    onClick={() => setInterests(prev => prev.includes('popsicles') ? prev.filter(i => i !== 'popsicles') : [...prev, 'popsicles'])}
+                                    className={`flex-1 py-6 px-4 border transition-all duration-300 flex flex-col items-center gap-1 group ${interests.includes('popsicles') ? 'bg-orange-50 border-orange-200 text-orange-900' : 'bg-white border-dipiu-black/10 hover:border-orange-200 text-dipiu-black/60'}`}
                                 >
                                     <span className="font-serif text-xl italic">Fruit Popsicles</span>
                                     <span className="text-[10px] uppercase tracking-widest opacity-60">100% Natural</span>
