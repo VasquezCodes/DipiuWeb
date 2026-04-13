@@ -13,35 +13,35 @@ const sorbets = [
         id: 1,
         name: "Strawberry Lemonade",
         description: "Fresh strawberries blended with zesty lemon. A perfect balance of sweet and tart.",
-        image: "dipiuHelados/strawberryLemonade.jpeg",
+        image: "dipiuHelados/lemonstraw.svg",
         color: "bg-red-100" // Light stain/accent
     },
     {
         id: 2,
         name: "Mango & Raspberry",
         description: "Tropical mango sweetness meets tangy raspberry ripples.",
-        image: "dipiuHelados/mangoRaspberry.jpeg",
+        image: "dipiuHelados/mango.svg",
         color: "bg-orange-100"
     },
     {
         id: 3,
         name: "Kiwi, Lemon & Mint",
         description: "A super refreshing green trio. Bright, cool, and invigorating.",
-        image: "dipiuHelados/kiwiLemonAndMint.jpeg",
+        image: "dipiuHelados/kiwi.svg",
         color: "bg-green-100"
     },
     {
         id: 4,
         name: "Passion Fruit & Orange",
         description: "Exotic passion fruit punch with a citrusy orange twist.",
-        image: "dipiuHelados/passionFruitOrange1.jpeg",
+        image: "dipiuHelados/orange.svg",
         color: "bg-yellow-100"
     },
     {
         id: 5,
         name: "Coconut",
         description: "Creamy, rich coconut. Pure tropical paradise in a scoop.",
-        image: "dipiuHelados/coconut.jpeg",
+        image: "dipiuHelados/creamyCoco.svg",
         color: "bg-slate-100"
     }
 ];
@@ -123,17 +123,15 @@ export default function FruitSorbets() {
                         className={`w-screen h-full flex-shrink-0 flex flex-col md:flex-row relative ${sorbet.color}`}
                     >
                         {/* Image Half */}
-                        <div className="w-full md:w-1/2 h-[50vh] md:h-full relative overflow-hidden group">
+                        <div className="w-full md:w-1/2 h-[50vh] md:h-full relative group flex items-center justify-center p-8 md:p-16">
                             <Image
                                 src={`/${sorbet.image}`}
                                 alt={sorbet.name}
                                 fill
-                                className="object-cover transition-transform duration-1000 ease-out group-hover:scale-105"
+                                className="object-contain transition-transform duration-1000 ease-out group-hover:scale-105"
                                 quality={90}
                                 priority={index < 2} // Prioritize first couple of images
                             />
-                            {/* Subtle overlay */}
-                            <div className="absolute inset-0 bg-black/10 group-hover:bg-transparent transition-colors duration-500"></div>
                         </div>
 
                         {/* Text Half */}
@@ -153,27 +151,6 @@ export default function FruitSorbets() {
                     </div>
                 ))}
 
-                {/* Coming Soon Slide */}
-                <div className="w-screen h-full flex-shrink-0 flex flex-col justify-center items-center p-8 md:p-20 text-center relative bg-dipiu-black text-dipiu-beige">
-                    <span className="block text-sm md:text-base font-sans font-bold tracking-[0.3em] uppercase mb-6 text-dipiu-red">
-                        Expanded Menu
-                    </span>
-                    <h2 className="text-5xl md:text-8xl font-luckiest font-medium mb-16 leading-tight">
-                        Coming Soon
-                    </h2>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-8 text-2xl md:text-4xl font-serif">
-                        {[
-                            "Cookies & Cream",
-                            "Dulce de Leche",
-                            "Chocolate Brownie",
-                            "Biscoff"
-                        ].map((flavour, index) => (
-                            <span key={index} className="opacity-60 hover:opacity-100 hover:text-dipiu-red transition-all duration-300 cursor-default">
-                                {flavour}
-                            </span>
-                        ))}
-                    </div>
-                </div>
             </div>
         </section>
     );
