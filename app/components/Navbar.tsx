@@ -85,8 +85,8 @@ export default function Navbar() {
         <nav ref={navRef}>
             <div
                 ref={containerRef}
-                // Static color: text-dipiu-beige (White-ish)
-                className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 py-6 md:px-12 md:py-8 text-dipiu-beige pointer-events-none"
+                // Auto-adaptive color: mix-blend-difference inverts against the section background
+                className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 py-6 md:px-12 md:py-8 text-white pointer-events-none mix-blend-difference"
             >
                 {/* Logo - Siempre Blanco/Negativo */}
                 <div className="flex-1 relative z-50 pointer-events-none">
@@ -127,19 +127,19 @@ export default function Navbar() {
 
                 {/* Botón Hamburguesa Móvil */}
                 <button
-                    className="md:hidden relative z-[51] w-8 h-8 flex flex-col justify-center items-end gap-1.5 focus:outline-none cursor-pointer pointer-events-auto"
+                    className="md:hidden relative z-51 w-8 h-8 flex flex-col justify-center items-end gap-1.5 focus:outline-none cursor-pointer pointer-events-auto"
                     onClick={toggleMenu}
                 >
-                    <span className="block w-8 h-[2px] bg-current" />
-                    <span className="block w-6 h-[2px] bg-current" />
-                    <span className="block w-4 h-[2px] bg-current" />
+                    <span className="block w-8 h-0.5 bg-current" />
+                    <span className="block w-6 h-0.5 bg-current" />
+                    <span className="block w-4 h-0.5 bg-current" />
                 </button>
             </div>
 
             {/* Capa del Menú Móvil */}
             <div
                 ref={menuOverlayRef}
-                className="fixed inset-0 z-[60] bg-dipiu-black text-dipiu-beige flex flex-col translate-x-full md:hidden"
+                className="fixed inset-0 z-60 bg-dipiu-black text-dipiu-beige flex flex-col translate-x-full md:hidden"
             >
                 <div className="flex justify-between items-center px-6 py-6 border-b border-dipiu-beige/10">
                     <span className="font-luckiest text-xl">Menu</span>
@@ -173,7 +173,7 @@ export default function Navbar() {
                     <a href="#contact" onClick={(e) => handleScrollTo(e, "#contact")} className="menu-item font-luckiest text-5xl hover:text-dipiu-red transition-colors cursor-pointer">
                         Contact
                     </a>
-                    <div className="menu-item w-12 h-[1px] bg-dipiu-beige/20 my-4" />
+                    <div className="menu-item w-12 h-px bg-dipiu-beige/20 my-4" />
                     <button
                         onClick={() => { closeMenu(); openWholesale(); }}
                         className="menu-item font-luckiest text-sm uppercase tracking-widest border border-dipiu-beige px-10 py-4 rounded-full hover:bg-dipiu-beige hover:text-dipiu-black transition-colors cursor-pointer"
