@@ -98,7 +98,7 @@ export default function Home() {
         The outer div handles position: sticky.
         The inner div handles scale/opacity transforms.
       */}
-      <div className="sticky top-0 w-full h-[100svh] z-0 overflow-hidden">
+      <div data-nav-ink="light" className="sticky top-0 w-full h-[100svh] z-0 overflow-hidden">
         <div
           ref={heroRef}
           className="w-full h-full will-change-transform"
@@ -111,22 +111,22 @@ export default function Home() {
       {/* 
         Standard flow. Hero stays sticky at top, Products scrolls over it.
       */}
-      <div ref={productsRef} className="relative z-10 w-full bg-dipiu-black shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
+      <div ref={productsRef} data-nav-ink="light" className="relative z-10 w-full bg-dipiu-black shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
         <Products />
       </div>
 
       {/* LAYER 2: Fruit Banner */}
-      <div className="relative z-15 w-full bg-dipiu-red">
+      <div data-nav-ink="light" className="relative z-15 w-full bg-dipiu-red">
         <FruitBanner />
       </div>
 
       {/* LAYER 3: Fruit Sorbets (Horizontal Scroll) */}
-      <div className="relative z-20 w-full bg-dipiu-beige">
+      <div data-nav-ink="dark" className="relative z-20 w-full bg-dipiu-beige">
         <FruitSorbets />
       </div>
 
       {/* LAYER 4: Contact + Footer */}
-      <div ref={contactRef} className="relative z-30 w-full bg-dipiu-black shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
+      <div ref={contactRef} data-nav-ink="light" className="relative z-30 w-full bg-dipiu-black shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
         <Contact />
         <Footer />
       </div>

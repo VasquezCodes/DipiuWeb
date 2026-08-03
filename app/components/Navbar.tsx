@@ -23,10 +23,10 @@ export default function Navbar() {
     // Estado del Menú Móvil
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    // Hide navbar on admin routes
-    if (pathname?.startsWith("/admin")) {
-        return null;
-    }
+    // Tinta del navbar: solo blanco o negro, según la sección que quede debajo
+    const [navInk, setNavInk] = useState<"light" | "dark">("light");
+
+    const isAdmin = pathname?.startsWith("/admin") ?? false;
 
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
     const closeMenu = () => setIsMenuOpen(false);
@@ -81,12 +81,59 @@ export default function Navbar() {
         }
     }, [isMenuOpen]);
 
+    // 3. Tinta adaptativa: la última sección [data-nav-ink] que cubre el navbar gana
+    //    (el orden del DOM coincide con el apilado visual de las capas).
+    useEffect(() => {
+        if (isAdmin) return;
+
+        let frame = 0;
+
+        const compute = () => {
+            frame = 0;
+            const container = containerRef.current as HTMLElement | null;
+            const probeY = container ? container.getBoundingClientRect().height / 2 : 40;
+
+            let ink: "light" | "dark" = "light";
+            document.querySelectorAll<HTMLElement>("[data-nav-ink]").forEach((section) => {
+                const rect = section.getBoundingClientRect();
+                if (rect.top <= probeY && rect.bottom >= probeY) {
+                    ink = section.dataset.navInk === "dark" ? "dark" : "light";
+                }
+            });
+            setNavInk(ink);
+        };
+
+        const schedule = () => {
+            if (!frame) frame = requestAnimationFrame(compute);
+        };
+
+        compute();
+        window.addEventListener("scroll", schedule, { passive: true });
+        window.addEventListener("resize", schedule);
+        ScrollTrigger.addEventListener("refresh", compute);
+
+        return () => {
+            if (frame) cancelAnimationFrame(frame);
+            window.removeEventListener("scroll", schedule);
+            window.removeEventListener("resize", schedule);
+            ScrollTrigger.removeEventListener("refresh", compute);
+        };
+    }, [isAdmin]);
+
+    // Hide navbar on admin routes
+    if (isAdmin) {
+        return null;
+    }
+
+    const isDarkInk = navInk === "dark";
+
     return (
         <nav ref={navRef}>
             <div
                 ref={containerRef}
-                // Auto-adaptive color: mix-blend-difference inverts against the section background
-                className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 py-6 md:px-12 md:py-8 text-white pointer-events-none mix-blend-difference"
+                // Auto-adaptive color: solo blanco o negro, según el data-nav-ink de la sección de abajo
+                className={`fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 py-6 md:px-12 md:py-8 pointer-events-none transition-colors duration-300 ${isDarkInk ? "text-dipiu-black" : "text-white"
+                    }`}
             >
                 {/* Logo - Siempre Blanco/Negativo */}
                 <div className="flex-1 relative z-50 pointer-events-none">
@@ -99,7 +146,7 @@ export default function Navbar() {
                             src="/dipiuLogos/SVG/%233 Logomark Red Positive.svg"
                             alt="DiPiù Logo"
                             fill
-                            className="object-contain object-left brightness-0 invert"
+                            className={`object-contain object-left brightness-0 ${isDarkInk ? "" : "invert"}`}
                             priority
                             suppressHydrationWarning
                         />
@@ -119,7 +166,7 @@ export default function Navbar() {
                     </a>
                     <button
                         onClick={openWholesale}
-                        className="border border-dipiu-beige px-6 py-2 rounded-full hover:bg-dipiu-red hover:text-dipiu-beige hover:border-dipiu-red transition-colors duration-300 cursor-pointer"
+                        className="border border-current px-6 py-2 rounded-full hover:bg-dipiu-red hover:text-dipiu-beige hover:border-dipiu-red transition-colors duration-300 cursor-pointer"
                     >
                         Wholesale
                     </button>
