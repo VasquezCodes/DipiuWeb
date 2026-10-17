@@ -3,36 +3,63 @@
 import { useRef, useEffect, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
-import { useWholesale } from "../context/WholesaleContext";
+import { useWholesale, EnquiryType } from "../context/WholesaleContext";
 import { usePathname } from "next/navigation";
+
+const initialFormData = {
+    businessName: "",
+    contactPerson: "",
+    email: "",
+    volume: "10 - 50 Units",
+    message: "",
+    // Eventos
+    phone: "",
+    occasion: "Wedding",
+    eventDate: "",
+    guests: "Under 50 guests",
+    venue: "",
+};
+
+const enquiryTabs: { type: EnquiryType; label: string }[] = [
+    { type: "wholesale", label: "Wholesale" },
+    { type: "events", label: "Events & parties" },
+];
+
+const copy: Record<EnquiryType, { title: string; intro: string; messagePlaceholder: string }> = {
+    wholesale: {
+        title: "Partner with DiPiù",
+        intro: "Bring authentic Italian Tiramisù to your venue.",
+        messagePlaceholder: "Tell us about your venue...",
+    },
+    events: {
+        title: "Bring DiPiù to your event",
+        intro: "Tell us about your celebration and we'll get back to you with availability.",
+        messagePlaceholder: "Tell us about the day...",
+    },
+};
+
+const labelClass = "text-xs uppercase tracking-widest font-bold";
+const fieldClass = "w-full bg-transparent border-b border-dipiu-black/20 py-2 focus:border-dipiu-red focus:outline-none transition-colors";
 
 export default function WholesaleOverlay() {
     const pathname = usePathname();
-    const { isWholesaleOpen, closeWholesale } = useWholesale();
+    const { isWholesaleOpen, enquiryType, setEnquiryType, closeWholesale } = useWholesale();
     const overlayRef = useRef<HTMLDivElement>(null);
     const backdropRef = useRef<HTMLDivElement>(null);
     const panelRef = useRef<HTMLDivElement>(null);
     const formRef = useRef<HTMLFormElement>(null);
 
     const [interests, setInterests] = useState<string[]>([]);
-
-    // Hide on admin routes
-    if (pathname?.startsWith("/admin")) {
-        return null;
-    }
+    const [services, setServices] = useState<string[]>([]);
 
     // Form States
-    const [formData, setFormData] = useState({
-        businessName: "",
-        contactPerson: "",
-        email: "",
-        volume: "10 - 50 Units",
-        message: ""
-    });
+    const [formData, setFormData] = useState(initialFormData);
     const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
 
     const tlRef = useRef<gsap.core.Timeline | null>(null);
     const statusRef = useRef(status);
+
+    const isEvents = enquiryType === "events";
 
     // Keep ref in sync with state
     useEffect(() => {
@@ -41,6 +68,8 @@ export default function WholesaleOverlay() {
 
     // Initial GSAP Setup — NO status dependency!
     useGSAP(() => {
+        if (!overlayRef.current) return;
+
         const tl = gsap.timeline({
             paused: true,
             onStart: () => {
@@ -53,8 +82,9 @@ export default function WholesaleOverlay() {
                 // Reset form on close if successful — read from ref, not stale closure
                 if (statusRef.current === 'success' || statusRef.current === 'error') {
                     setStatus('idle');
-                    setFormData({ businessName: "", contactPerson: "", email: "", volume: "10 - 50 Units", message: "" });
+                    setFormData(initialFormData);
                     setInterests([]);
+                    setServices([]);
                 }
             }
         });
@@ -75,8 +105,17 @@ export default function WholesaleOverlay() {
         isWholesaleOpen ? tlRef.current.play() : tlRef.current.reverse();
     }, [isWholesaleOpen]);
 
+    // Hide on admin routes (después de los hooks para no romper su orden)
+    if (pathname?.startsWith("/admin")) {
+        return null;
+    }
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
         setFormData(prev => ({ ...prev, [e.target.name]: e.target.value }));
+    };
+
+    const toggle = (setList: React.Dispatch<React.SetStateAction<string[]>>, value: string) => {
+        setList(prev => prev.includes(value) ? prev.filter(i => i !== value) : [...prev, value]);
     };
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -87,7 +126,7 @@ export default function WholesaleOverlay() {
             const res = await fetch('/api/send-email', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ ...formData, interests }),
+                body: JSON.stringify({ ...formData, enquiryType, interests, services }),
             });
 
             if (res.ok) {
@@ -119,15 +158,37 @@ export default function WholesaleOverlay() {
                 className="absolute top-0 right-0 h-full w-full md:w-[500px] bg-dipiu-beige text-dipiu-black shadow-2xl translate-x-full pointer-events-auto flex flex-col"
             >
                 <div className="flex justify-between items-center p-8 border-b border-dipiu-black/10">
-                    <h2 className="font-serif text-3xl font-bold tracking-tighter">Partner with DiPiù</h2>
-                    <button onClick={closeWholesale} className="group p-2 hover:bg-dipiu-black/5 rounded-full transition-colors cursor-pointer">
+                    <h2 className="font-serif text-3xl font-bold tracking-tighter">{copy[enquiryType].title}</h2>
+                    <button onClick={closeWholesale} aria-label="Close enquiry" className="group p-2 hover:bg-dipiu-black/5 rounded-full transition-colors cursor-pointer">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 group-hover:rotate-90 transition-transform duration-300">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                         </svg>
                     </button>
                 </div>
 
-                <div className="flex-1 overflow-y-auto p-8 relative">
+                {/* Tipo de consulta */}
+                <div role="group" aria-label="Enquiry type" className="flex gap-8 px-8 border-b border-dipiu-black/10">
+                    {enquiryTabs.map(({ type, label }) => {
+                        const isActive = enquiryType === type;
+                        return (
+                            <button
+                                key={type}
+                                type="button"
+                                aria-pressed={isActive}
+                                onClick={() => setEnquiryType(type)}
+                                className={`relative py-4 text-xs uppercase tracking-widest font-bold transition-colors duration-300 cursor-pointer ${isActive ? "text-dipiu-black" : "text-dipiu-black/65 hover:text-dipiu-black"}`}
+                            >
+                                {label}
+                                <span
+                                    aria-hidden="true"
+                                    className={`absolute left-0 bottom-0 h-0.5 w-full bg-dipiu-red origin-left transition-transform duration-300 ${isActive ? "scale-x-100" : "scale-x-0"}`}
+                                />
+                            </button>
+                        );
+                    })}
+                </div>
+
+                <div className="flex-1 overflow-y-auto p-8 relative" data-lenis-prevent>
                     {/* Success Message Overlay */}
                     {status === 'success' && (
                         <div
@@ -175,95 +236,211 @@ export default function WholesaleOverlay() {
                     )}
 
                     <p className="font-sans text-sm uppercase tracking-widest opacity-60 mb-8">
-                        Bring authentic Italian Tiramisù to your venue.
+                        {copy[enquiryType].intro}
                     </p>
 
                     <form ref={formRef} className="flex flex-col gap-6" onSubmit={handleSubmit}>
-                        <div className="flex flex-col gap-2">
-                            <label className="text-xs uppercase tracking-widest font-bold">Business Name</label>
-                            <input
-                                name="businessName"
-                                value={formData.businessName}
-                                onChange={handleChange}
-                                type="text"
-                                placeholder="e.g. Caffe Roma"
-                                required
-                                className="w-full bg-transparent border-b border-dipiu-black/20 py-2 focus:border-dipiu-red focus:outline-none transition-colors"
-                            />
-                        </div>
+                        {!isEvents && (
+                            <div className="flex flex-col gap-2">
+                                <label htmlFor="enquiry-business" className={labelClass}>Business Name</label>
+                                <input
+                                    id="enquiry-business"
+                                    name="businessName"
+                                    value={formData.businessName}
+                                    onChange={handleChange}
+                                    type="text"
+                                    placeholder="e.g. Caffe Roma"
+                                    required
+                                    className={fieldClass}
+                                />
+                            </div>
+                        )}
 
                         <div className="flex flex-col gap-2">
-                            <label className="text-xs uppercase tracking-widest font-bold">Contact Person</label>
+                            <label htmlFor="enquiry-name" className={labelClass}>{isEvents ? "Your Name" : "Contact Person"}</label>
                             <input
+                                id="enquiry-name"
                                 name="contactPerson"
                                 value={formData.contactPerson}
                                 onChange={handleChange}
                                 type="text"
                                 placeholder="Your Name"
+                                autoComplete="name"
                                 required
-                                className="w-full bg-transparent border-b border-dipiu-black/20 py-2 focus:border-dipiu-red focus:outline-none transition-colors"
+                                className={fieldClass}
                             />
                         </div>
 
                         <div className="flex flex-col gap-2">
-                            <label className="text-xs uppercase tracking-widest font-bold">Email Address</label>
+                            <label htmlFor="enquiry-email" className={labelClass}>Email Address</label>
                             <input
+                                id="enquiry-email"
                                 name="email"
                                 value={formData.email}
                                 onChange={handleChange}
                                 type="email"
                                 placeholder="hello@example.com"
+                                autoComplete="email"
                                 required
-                                className="w-full bg-transparent border-b border-dipiu-black/20 py-2 focus:border-dipiu-red focus:outline-none transition-colors"
+                                className={fieldClass}
                             />
                         </div>
 
-                        <div className="flex flex-col gap-3">
-                            <label className="text-xs uppercase tracking-widest font-bold">I'm interested in...</label>
-                            <div className="flex gap-4">
-                                <button
-                                    type="button"
-                                    onClick={() => setInterests(prev => prev.includes('tiramisu') ? prev.filter(i => i !== 'tiramisu') : [...prev, 'tiramisu'])}
-                                    className={`flex-1 py-6 px-4 border transition-all duration-300 flex flex-col items-center gap-1 group ${interests.includes('tiramisu') ? 'bg-dipiu-coffee border-dipiu-coffee text-dipiu-beige' : 'bg-white border-dipiu-black/10 hover:border-dipiu-coffee/50 text-dipiu-black/60'}`}
-                                >
-                                    <span className="font-serif text-xl italic">Tiramisù</span>
-                                    <span className="text-[10px] uppercase tracking-widest opacity-60">Classic Collection</span>
-                                </button>
+                        {isEvents ? (
+                            <>
+                                <div className="flex flex-col gap-2">
+                                    <label htmlFor="enquiry-phone" className={labelClass}>Phone <span className="font-normal opacity-75 normal-case tracking-normal">(optional)</span></label>
+                                    <input
+                                        id="enquiry-phone"
+                                        name="phone"
+                                        value={formData.phone}
+                                        onChange={handleChange}
+                                        type="tel"
+                                        placeholder="04XX XXX XXX"
+                                        autoComplete="tel"
+                                        className={fieldClass}
+                                    />
+                                </div>
 
-                                <button
-                                    type="button"
-                                    onClick={() => setInterests(prev => prev.includes('popsicles') ? prev.filter(i => i !== 'popsicles') : [...prev, 'popsicles'])}
-                                    className={`flex-1 py-6 px-4 border transition-all duration-300 flex flex-col items-center gap-1 group ${interests.includes('popsicles') ? 'bg-orange-50 border-orange-200 text-orange-900' : 'bg-white border-dipiu-black/10 hover:border-orange-200 text-dipiu-black/60'}`}
-                                >
-                                    <span className="font-serif text-xl italic">Fruit Popsicles</span>
-                                    <span className="text-[10px] uppercase tracking-widest opacity-60">100% Natural</span>
-                                </button>
-                            </div>
-                        </div>
+                                <div className="flex flex-col gap-2">
+                                    <label htmlFor="enquiry-occasion" className={labelClass}>Occasion</label>
+                                    <select
+                                        id="enquiry-occasion"
+                                        name="occasion"
+                                        value={formData.occasion}
+                                        onChange={handleChange}
+                                        className={fieldClass}
+                                    >
+                                        <option>Wedding</option>
+                                        <option>Engagement</option>
+                                        <option>Birthday</option>
+                                        <option>Christening</option>
+                                        <option>Corporate event</option>
+                                        <option>Something else</option>
+                                    </select>
+                                </div>
+
+                                <div className="grid grid-cols-2 gap-6">
+                                    <div className="flex flex-col gap-2">
+                                        <label htmlFor="enquiry-date" className={labelClass}>Event Date</label>
+                                        <input
+                                            id="enquiry-date"
+                                            name="eventDate"
+                                            value={formData.eventDate}
+                                            onChange={handleChange}
+                                            type="date"
+                                            className={fieldClass}
+                                        />
+                                    </div>
+                                    <div className="flex flex-col gap-2">
+                                        <label htmlFor="enquiry-guests" className={labelClass}>Guests</label>
+                                        <select
+                                            id="enquiry-guests"
+                                            name="guests"
+                                            value={formData.guests}
+                                            onChange={handleChange}
+                                            className={fieldClass}
+                                        >
+                                            <option>Under 50 guests</option>
+                                            <option>50 to 100 guests</option>
+                                            <option>100 to 200 guests</option>
+                                            <option>200+ guests</option>
+                                        </select>
+                                    </div>
+                                </div>
+
+                                <div className="flex flex-col gap-2">
+                                    <label htmlFor="enquiry-venue" className={labelClass}>Suburb or Venue</label>
+                                    <input
+                                        id="enquiry-venue"
+                                        name="venue"
+                                        value={formData.venue}
+                                        onChange={handleChange}
+                                        type="text"
+                                        placeholder="e.g. New Farm"
+                                        className={fieldClass}
+                                    />
+                                </div>
+
+                                <div className="flex flex-col gap-3">
+                                    <span id="enquiry-services" className={labelClass}>What would you like?</span>
+                                    <div role="group" aria-labelledby="enquiry-services" className="flex gap-4">
+                                        <button
+                                            type="button"
+                                            aria-pressed={services.includes('tiramisu-tray')}
+                                            onClick={() => toggle(setServices, 'tiramisu-tray')}
+                                            className={`flex-1 py-6 px-4 border transition-all duration-300 flex flex-col items-center gap-1 ${services.includes('tiramisu-tray') ? 'bg-dipiu-coffee border-dipiu-coffee text-dipiu-beige' : 'bg-white border-dipiu-black/10 hover:border-dipiu-coffee/50 text-dipiu-black/70'}`}
+                                        >
+                                            <span className="font-serif text-xl italic">Tiramisu Tray</span>
+                                            <span className="text-[10px] uppercase tracking-widest">By the slice</span>
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            aria-pressed={services.includes('cannoli-station')}
+                                            onClick={() => toggle(setServices, 'cannoli-station')}
+                                            className={`flex-1 py-6 px-4 border transition-all duration-300 flex flex-col items-center gap-1 ${services.includes('cannoli-station') ? 'bg-dipiu-red border-dipiu-red text-white' : 'bg-white border-dipiu-black/10 hover:border-dipiu-red/50 text-dipiu-black/70'}`}
+                                        >
+                                            <span className="font-serif text-xl italic">Cannoli Station</span>
+                                            <span className="text-[10px] uppercase tracking-widest">Piped to order</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </>
+                        ) : (
+                            <>
+                                <div className="flex flex-col gap-3">
+                                    <span id="enquiry-interests" className={labelClass}>I&apos;m interested in...</span>
+                                    <div role="group" aria-labelledby="enquiry-interests" className="flex gap-4">
+                                        <button
+                                            type="button"
+                                            aria-pressed={interests.includes('tiramisu')}
+                                            onClick={() => toggle(setInterests, 'tiramisu')}
+                                            className={`flex-1 py-6 px-4 border transition-all duration-300 flex flex-col items-center gap-1 group ${interests.includes('tiramisu') ? 'bg-dipiu-coffee border-dipiu-coffee text-dipiu-beige' : 'bg-white border-dipiu-black/10 hover:border-dipiu-coffee/50 text-dipiu-black/60'}`}
+                                        >
+                                            <span className="font-serif text-xl italic">Tiramisù</span>
+                                            <span className="text-[10px] uppercase tracking-widest opacity-60">Classic Collection</span>
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            aria-pressed={interests.includes('popsicles')}
+                                            onClick={() => toggle(setInterests, 'popsicles')}
+                                            className={`flex-1 py-6 px-4 border transition-all duration-300 flex flex-col items-center gap-1 group ${interests.includes('popsicles') ? 'bg-orange-50 border-orange-200 text-orange-900' : 'bg-white border-dipiu-black/10 hover:border-orange-200 text-dipiu-black/60'}`}
+                                        >
+                                            <span className="font-serif text-xl italic">Fruit Popsicles</span>
+                                            <span className="text-[10px] uppercase tracking-widest opacity-60">100% Natural</span>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div className="flex flex-col gap-2">
+                                    <label htmlFor="enquiry-volume" className={labelClass}>Estimated Volume / Week</label>
+                                    <select
+                                        id="enquiry-volume"
+                                        name="volume"
+                                        value={formData.volume}
+                                        onChange={handleChange}
+                                        className={fieldClass}
+                                    >
+                                        <option>10 - 50 Units</option>
+                                        <option>50 - 100 Units</option>
+                                        <option>100+ Units (Custom)</option>
+                                    </select>
+                                </div>
+                            </>
+                        )}
 
                         <div className="flex flex-col gap-2">
-                            <label className="text-xs uppercase tracking-widest font-bold">Estimated Volume / Week</label>
-                            <select
-                                name="volume"
-                                value={formData.volume}
-                                onChange={handleChange}
-                                className="w-full bg-transparent border-b border-dipiu-black/20 py-2 focus:border-dipiu-red focus:outline-none transition-colors"
-                            >
-                                <option>10 - 50 Units</option>
-                                <option>50 - 100 Units</option>
-                                <option>100+ Units (Custom)</option>
-                            </select>
-                        </div>
-
-                        <div className="flex flex-col gap-2">
-                            <label className="text-xs uppercase tracking-widest font-bold">Message</label>
+                            <label htmlFor="enquiry-message" className={labelClass}>Message</label>
                             <textarea
+                                id="enquiry-message"
                                 name="message"
                                 value={formData.message}
                                 onChange={handleChange}
                                 rows={4}
-                                placeholder="Tell us about your venue..."
-                                className="w-full bg-transparent border-b border-dipiu-black/20 py-2 focus:border-dipiu-red focus:outline-none transition-colors resize-none"
+                                placeholder={copy[enquiryType].messagePlaceholder}
+                                className={`${fieldClass} resize-none`}
                             ></textarea>
                         </div>
 
