@@ -61,6 +61,10 @@ export const metadata: Metadata = {
     "espresso tiramisu",
     "fruit sorbets Brisbane",
     "handmade desserts Brisbane",
+    "tiramisu catering Brisbane",
+    "wedding desserts Brisbane",
+    "event dessert catering Brisbane",
+    "cannoli Brisbane",
   ],
   authors: [{ name: "DiPiù Tiramisu" }],
   creator: "DiPiù Tiramisu",
@@ -140,6 +144,16 @@ const jsonLd = {
     name: "Brisbane",
   },
   servesCuisine: "Italian",
+  makesOffer: {
+    "@type": "Offer",
+    itemOffered: {
+      "@type": "Service",
+      name: "Event dessert catering",
+      description:
+        "Tiramisu served by the slice and cannoli piped to order at weddings, engagements, birthdays, christenings and corporate events in Brisbane.",
+      areaServed: { "@type": "City", name: "Brisbane" },
+    },
+  },
   priceRange: "$$",
   sameAs: [
     "https://www.facebook.com/share/1GGBVfkzeU/",

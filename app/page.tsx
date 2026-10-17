@@ -4,6 +4,7 @@ import Hero from "./components/Hero";
 import Products from "./components/Products";
 import FruitBanner from "./components/FruitBanner";
 import FruitSorbets from "./components/FruitSorbets";
+import Events from "./components/Events";
 import Contact from "./components/Contact";
 import Footer from "./components/Footer";
 import { useRef } from "react";
@@ -125,7 +126,12 @@ export default function Home() {
         <FruitSorbets />
       </div>
 
-      {/* LAYER 4: Contact + Footer */}
+      {/* LAYER 4: Events & parties */}
+      <div data-nav-ink="light" className="relative z-25 w-full bg-dipiu-black">
+        <Events />
+      </div>
+
+      {/* LAYER 5: Contact + Footer */}
       <div ref={contactRef} data-nav-ink="light" className="relative z-30 w-full bg-dipiu-black shadow-[0_-10px_40px_rgba(0,0,0,0.5)]">
         <Contact />
         <Footer />

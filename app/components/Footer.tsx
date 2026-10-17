@@ -9,7 +9,7 @@ import { useWholesale } from "../context/WholesaleContext";
 gsap.registerPlugin(ScrollToPlugin);
 
 export default function Footer() {
-    const { openWholesale } = useWholesale();
+    const { openWholesale, openEvents } = useWholesale();
 
     const handleInstagramClick = (e: React.MouseEvent) => {
         e.preventDefault();
@@ -72,6 +72,7 @@ export default function Footer() {
                         <button onClick={() => gsap.to(window, { duration: 1.5, scrollTo: 0, ease: "power3.inOut" })} className="hover:text-white transition-colors cursor-pointer uppercase">Home</button>
                         <Link href="/" className="hover:text-white transition-colors">Privacy Policy</Link>
                         <Link href="#contact" className="hover:text-white transition-colors">Contact Us</Link>
+                        <button onClick={openEvents} className="hover:text-white transition-colors cursor-pointer uppercase">Events</button>
                         <button onClick={openWholesale} className="hover:text-white transition-colors cursor-pointer uppercase">Wholesale</button>
                     </div>
                 </div>

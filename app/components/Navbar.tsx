@@ -161,6 +161,9 @@ export default function Navbar() {
                     <a href="#products" onClick={(e) => handleScrollTo(e, "#products")} className="hover:underline underline-offset-4 decoration-1 cursor-pointer">
                         Our Products
                     </a>
+                    <a href="#events" onClick={(e) => handleScrollTo(e, "#events")} className="hover:underline underline-offset-4 decoration-1 cursor-pointer">
+                        Events
+                    </a>
                     <a href="#contact" onClick={(e) => handleScrollTo(e, "#contact")} className="hover:underline underline-offset-4 decoration-1 cursor-pointer">
                         Contact Us
                     </a>
@@ -217,6 +220,9 @@ export default function Navbar() {
                         Products
                     </a>
 
+                    <a href="#events" onClick={(e) => handleScrollTo(e, "#events")} className="menu-item font-luckiest text-5xl hover:text-dipiu-red transition-colors cursor-pointer">
+                        Events
+                    </a>
                     <a href="#contact" onClick={(e) => handleScrollTo(e, "#contact")} className="menu-item font-luckiest text-5xl hover:text-dipiu-red transition-colors cursor-pointer">
                         Contact
                     </a>
